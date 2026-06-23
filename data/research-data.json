@@ -457,7 +457,7 @@
         "ORCID 记录",
         "PubMed 热点",
         "个人 GitHub 项目",
-        "手动核实文献"
+        "自动核验文献"
       ],
       "outputs": [
         "个人研究画像",
@@ -619,10 +619,7 @@
         "GBD",
         "WHO"
       ],
-      "tier": "routine",
-      "cloudStatus": "unknown",
-      "verifiedBy": "",
-      "verifiedAt": ""
+      "tier": "routine"
     },
     {
       "id": "tb-vaccine-review",
@@ -648,7 +645,7 @@
       "journal": "Lancet Oncology",
       "year": "2026",
       "doi": "10.1016/S1470-2045(25)00730-2",
-      "pmid": "",
+      "pmid": "41785894",
       "note": "GBD 趋势和预测范式。"
     },
     {
@@ -684,7 +681,7 @@
       "journal": "Frontiers in Microbiology",
       "year": "2025",
       "doi": "10.3389/fmicb.2025.1584360",
-      "pmid": "",
+      "pmid": "40415930",
       "note": "TB 表达谱诊断方向。"
     },
     {
@@ -692,7 +689,7 @@
       "title": "Mendelian randomization analysis identifies druggable genes and drugs repurposing for chronic obstructive pulmonary disease.",
       "journal": "Frontiers in Cellular and Infection Microbiology",
       "year": "2024",
-      "doi": "",
+      "doi": "10.3389/fcimb.2024.1386506",
       "pmid": "38660492",
       "note": "MR + 可成药靶点 + 呼吸疾病范式。"
     },
@@ -701,7 +698,7 @@
       "title": "Genetically supported targets and drug repurposing for brain aging: A systematic study in the UK Biobank.",
       "journal": "Science Advances",
       "year": "2025",
-      "doi": "",
+      "doi": "10.1126/sciadv.adr3757",
       "pmid": "40073132",
       "note": "遗传支持靶点与药物重定位范式。"
     },
@@ -720,7 +717,7 @@
       "title": "Plasma proteomic associations with genetics and health in the UK Biobank.",
       "journal": "Nature",
       "year": "2023",
-      "doi": "",
+      "doi": "10.1038/s41586-023-06592-6",
       "pmid": "37794186",
       "note": "pQTL/蛋白组 MR 数据基础。",
       "url": "",
@@ -728,17 +725,14 @@
         "pQTL",
         "UKB"
       ],
-      "tier": "routine",
-      "cloudStatus": "unknown",
-      "verifiedBy": "",
-      "verifiedAt": ""
+      "tier": "routine"
     },
     {
       "id": "immune-proteins-natimm",
       "title": "Genetics of circulating inflammatory proteins identifies drivers of immune-mediated disease risk and therapeutic targets.",
       "journal": "Nature Immunology",
       "year": "2023",
-      "doi": "",
+      "doi": "10.1038/s41590-023-01588-w",
       "pmid": "37563310",
       "note": "炎症蛋白与免疫疾病靶点。",
       "url": "",
@@ -746,10 +740,7 @@
         "pQTL",
         "免疫"
       ],
-      "tier": "routine",
-      "cloudStatus": "unknown",
-      "verifiedBy": "",
-      "verifiedAt": ""
+      "tier": "routine"
     },
     {
       "id": "tb-burden-gbd-who-method",
@@ -783,7 +774,7 @@
       "title": "Disease prediction with multi-omics and biomarkers empowers case-control genetic discoveries in the UK Biobank.",
       "journal": "Nature Genetics",
       "year": "2024",
-      "doi": "",
+      "doi": "10.1038/s41588-024-01898-1",
       "pmid": "39261665",
       "note": "UKB 多组学与疾病预测范式。"
     },
@@ -793,17 +784,14 @@
       "journal": "International Journal of Epidemiology",
       "year": "2003",
       "doi": "10.1093/ije/dyg070",
-      "pmid": "",
+      "pmid": "12689998",
       "url": "",
       "note": "MR 方法思想的基础文献。",
       "tags": [
         "MR",
         "方法基础"
       ],
-      "tier": "routine",
-      "cloudStatus": "unknown",
-      "verifiedBy": "",
-      "verifiedAt": ""
+      "tier": "routine"
     },
     {
       "id": "mr-base-elife-2018",
@@ -811,17 +799,14 @@
       "journal": "eLife",
       "year": "2018",
       "doi": "10.7554/eLife.34408",
-      "pmid": "",
+      "pmid": "29846171",
       "url": "",
       "note": "TwoSampleMR/MR-Base 平台基础文献。",
       "tags": [
         "MR",
         "工具平台"
       ],
-      "tier": "routine",
-      "cloudStatus": "unknown",
-      "verifiedBy": "",
-      "verifiedAt": ""
+      "tier": "routine"
     },
     {
       "id": "mr-guidelines-2020",
@@ -836,10 +821,7 @@
         "MR",
         "报告规范"
       ],
-      "tier": "routine",
-      "cloudStatus": "unknown",
-      "verifiedBy": "",
-      "verifiedAt": ""
+      "tier": "routine"
     },
     {
       "id": "strobe-mr-jama-2021",
@@ -847,17 +829,14 @@
       "journal": "JAMA",
       "year": "2021",
       "doi": "10.1001/jama.2021.18236",
-      "pmid": "",
+      "pmid": "34698778",
       "url": "",
       "note": "MR 报告规范，适合用于投稿前自查。",
       "tags": [
         "MR",
         "报告规范"
       ],
-      "tier": "routine",
-      "cloudStatus": "unknown",
-      "verifiedBy": "",
-      "verifiedAt": ""
+      "tier": "routine"
     },
     {
       "id": "citespace-2006",
@@ -872,10 +851,7 @@
         "文献计量",
         "知识图谱"
       ],
-      "tier": "routine",
-      "cloudStatus": "unknown",
-      "verifiedBy": "",
-      "verifiedAt": ""
+      "tier": "routine"
     },
     {
       "id": "vosviewer-2010",
@@ -883,17 +859,14 @@
       "journal": "Scientometrics",
       "year": "2010",
       "doi": "10.1007/s11192-009-0146-3",
-      "pmid": "",
+      "pmid": "20585380",
       "url": "",
       "note": "VOSviewer 共现图谱基础文献。",
       "tags": [
         "文献计量",
         "工具平台"
       ],
-      "tier": "routine",
-      "cloudStatus": "unknown",
-      "verifiedBy": "",
-      "verifiedAt": ""
+      "tier": "routine"
     },
     {
       "id": "bibliometrix-2017",
@@ -908,28 +881,22 @@
         "文献计量",
         "工具平台"
       ],
-      "tier": "routine",
-      "cloudStatus": "unknown",
-      "verifiedBy": "",
-      "verifiedAt": ""
+      "tier": "routine"
     },
     {
       "id": "gbd-2019-lancet",
-      "title": "Global burden of 369 diseases and injuries in 204 countries and territories, 1990–2019.",
+      "title": "Global burden of 369 diseases and injuries in 204 countries and territories, 1990–2019: a systematic analysis for the Global Burden of Disease Study 2019",
       "journal": "The Lancet",
       "year": "2020",
       "doi": "10.1016/S0140-6736(20)30925-9",
-      "pmid": "",
+      "pmid": "33069326",
       "url": "",
       "note": "GBD 疾病负担分析的总框架参考。",
       "tags": [
         "GBD",
         "疾病负担"
       ],
-      "tier": "routine",
-      "cloudStatus": "unknown",
-      "verifiedBy": "",
-      "verifiedAt": ""
+      "tier": "routine"
     },
     {
       "id": "prisma-2020",
@@ -937,17 +904,14 @@
       "journal": "BMJ",
       "year": "2021",
       "doi": "10.1136/bmj.n71",
-      "pmid": "",
+      "pmid": "33782057",
       "url": "",
       "note": "系统综述/文献筛选流程可参考的报告规范。",
       "tags": [
         "综述",
         "报告规范"
       ],
-      "tier": "routine",
-      "cloudStatus": "unknown",
-      "verifiedBy": "",
-      "verifiedAt": ""
+      "tier": "routine"
     }
   ],
   "papers": [

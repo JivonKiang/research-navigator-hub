@@ -1,6 +1,6 @@
 # Jivon Research Navigator
 
-新的综合科研导航仓库，整合 ORCID 学术画像、疾病方向、科研套路、主线路线图和人工核实参考文献。
+新的综合科研导航仓库，整合 ORCID 学术画像、疾病方向、科研套路、主线路线图和自动核验参考文献。
 
 ## 页面
 
@@ -12,19 +12,18 @@ GitHub Pages: https://jivonkiang.github.io/research-navigator-hub/
 - 主线界面：只显示下一步判断，不把参考文献细节直接铺满首页。
 - 路线图：用分层卡片替代拥挤的力导向网络图，兼顾桌面和手机端阅读。
 - Idea 详情：研究设计、数据源、产出物和文献证据默认折叠，需要时展开。
-- 文献核实：所有参考文献默认 `?`，人工确认后可切换为 `✓`，否决可切换为 `×`。
-- 云端核实：页面可使用一次本机保存的最小权限 GitHub token，把本地核实状态自动同步到 `data/verification.json`。
+- 文献核实：用 PubMed 与 Crossref 自动执行 title、PMID、DOI 三重核验。
+- 核验状态：`✓` 表示 title/PMID/DOI 三重通过，`△` 表示 title+DOI 通过但缺 PMID，`i` 表示非论文元数据。
 - 结核多组学 + MR：已从新主线推荐改为“已完成 · 投稿复盘”。
 
 ## 数据文件
 
 - `data/research-data.json`: 领域、方法、idea、参考文献、论文与数据库数据。
-- `data/verification.json`: 云端文献核实状态。
+- `data/verification.json`: 自动文献真实性核验结果。
 
 ## 维护原则
 
 - 正式证据区不展示 `GEN...` 伪 PMID。
 - 无 PMID 的文献保留 DOI 或 PubMed 标题检索入口。
-- 浏览器本地核实状态可以自动同步到 GitHub，也可以导出为 JSON 备份。
-- 同步所需 token 只应授予本仓库 `Contents: Read and write` 权限，不要使用全权限 token。
-- 不要把 token 写入公开页面或提交到仓库；页面只支持保存在使用者自己的浏览器。
+- 自动核验优先使用 PubMed PMID 取回论文记录，再用 Crossref DOI 取回出版信息，最后比较标题相似度。
+- 核验结果直接随仓库数据更新，页面端只负责展示。
