@@ -250,46 +250,51 @@
   "ideas": [
     {
       "id": "tb-pqtl-mr",
-      "title": "TB 生物标志物的 pQTL-MR 因果验证",
-      "question": "循环蛋白或炎症蛋白是否与 TB 易感性、潜伏感染或活动性 TB 存在因果关系？",
+      "title": "TB 多组学 + MR 课题复盘与改投策略",
+      "question": "既有多组学+MR+结核研究为什么投稿不顺，应该补证据、拆分问题，还是转向改投？",
       "field": "tb",
       "method": "mr",
-      "feasibility": 88,
-      "novelty": 84,
+      "feasibility": 70,
+      "novelty": 68,
       "evidence": 82,
       "difficulty": 3,
       "status": "unverified",
       "references": [
         "tb-burden-gbd-who",
-        "ukb-proteomics-nature",
-        "immune-proteins-natimm"
+        "mr-guidelines-2020",
+        "strobe-mr-jama-2021",
+        "mr-base-elife-2018"
       ],
-      "stage": "优先推进",
-      "rationale": "TB 方向已有疾病负担和诊断文献基础，pQTL-MR 能把“相关标志物”推进到“遗传支持的因果候选”。适合形成一篇方法清晰、证据链较强的生信/流行病学交叉论文。",
+      "stage": "已完成 · 投稿复盘",
+      "rationale": "这条线已经完成，不应继续被页面当作新主线推荐。现在更重要的是复盘拒稿原因、补齐 STROBE-MR/敏感性分析/机制验证叙事，并判断是否改投、拆分为方法短文，或转为后续课题的前期基础。",
       "design": [
-        "从 TB 结局 GWAS 或感染相关表型中定义 outcome。",
-        "选择 UKB-PPP、deCODE 或炎症蛋白 pQTL 作为 exposure。",
-        "用两样本 MR、共定位和敏感性分析筛掉水平多效性。",
-        "把候选蛋白映射到药物靶点、免疫通路和诊断应用场景。"
+        "把审稿意见按 novelty、data validity、MR assumptions、mechanistic validation、journal fit 分类。",
+        "用 STROBE-MR 与 MR 指南逐项检查工具变量、方向性、多效性、共定位和阴性对照。",
+        "把多组学部分和 MR 部分拆开评估：是证据链太长，还是每一段都不够强。",
+        "给出三条路：补分析后改投、拆成方法/数据库型短文、把结果作为下一篇课题的 preliminary evidence。"
       ],
       "dataSources": [
-        "TB GWAS / 感染表型",
-        "UKB-PPP",
-        "deCODE pQTL",
-        "PubMed 验证文献"
+        "既有稿件",
+        "审稿意见",
+        "STROBE-MR",
+        "MR Guidelines",
+        "MR-Base / TwoSampleMR",
+        "TB 负担文献"
       ],
       "outputs": [
-        "候选蛋白清单",
-        "MR 主结果表",
-        "共定位证据",
-        "机制图",
-        "论文方法框架"
+        "拒稿原因矩阵",
+        "补分析清单",
+        "改投期刊池",
+        "可保留结果",
+        "可拆分问题"
       ],
       "brainstorm": [
-        "TB 潜伏感染 vs 活动性 TB 分层",
-        "炎症蛋白与疫苗反应",
-        "候选蛋白是否可作为诊断 panel"
-      ]
+        "从 TB 标志物转为免疫蛋白靶点",
+        "把多组学作为机制补充而非主论点",
+        "改投方法接受度更高的流行病/生信期刊"
+      ],
+      "lane": "review",
+      "priority": 4
     },
     {
       "id": "tb-policy-did",
@@ -306,7 +311,7 @@
         "tb-burden-gbd-who",
         "tb-burden-gbd-who-method"
       ],
-      "stage": "需要数据确认",
+      "stage": "观察线 · 需政策数据",
       "rationale": "政策因果题的价值在于把 WHO/GBD 负担变化解释为可检验的公共卫生干预效果，但要求政策时间点、国家对照组和长期数据足够清楚。",
       "design": [
         "先锁定政策明确、执行时间清楚的国家或地区。",
@@ -330,7 +335,9 @@
         "DOTS 策略扩展",
         "新诊断工具推广",
         "COVID-19 对 TB 服务中断的影响"
-      ]
+      ],
+      "lane": "watch",
+      "priority": 5
     },
     {
       "id": "tb-diagnosis-multiomics",
@@ -348,7 +355,7 @@
         "tb-vaccine-review",
         "kirc-multiomics-method"
       ],
-      "stage": "可作为第二梯队",
+      "stage": "归档参考 · 不重复投入",
       "rationale": "TB 诊断方向适合把表达谱、多组学和临床变量组合起来，但需要避免只做模型堆叠。更好的切入点是可解释标志物组合和跨队列泛化。",
       "design": [
         "整理 TB 潜伏感染、活动性 TB 和健康对照表达谱。",
@@ -372,7 +379,9 @@
         "潜伏感染早筛",
         "疫苗保护反应预测",
         "TB 与其他呼吸感染鉴别"
-      ]
+      ],
+      "lane": "archive",
+      "priority": 6
     },
     {
       "id": "gbd-blue-ocean-biblio",
@@ -386,11 +395,13 @@
       "difficulty": 2,
       "status": "unverified",
       "references": [
-        "digestive-gbd",
-        "breast-gbd",
-        "transplant-biblio-method"
+        "gbd-2019-lancet",
+        "citespace-2006",
+        "vosviewer-2010",
+        "bibliometrix-2017",
+        "prisma-2020"
       ],
-      "stage": "快速产出",
+      "stage": "主线候选 · 快速产出",
       "rationale": "GBD 与文献计量结合适合快速筛题：先找高负担、增长明显但论文拥挤度不高的病种，再把候选病种映射到可写方法。",
       "design": [
         "按疾病负担、增长趋势、地区差异和文献拥挤度建立评分。",
@@ -414,7 +425,9 @@
         "非恶性消化疾病",
         "罕见但增长快的代谢病",
         "地区差异明显的感染病"
-      ]
+      ],
+      "lane": "main",
+      "priority": 1
     },
     {
       "id": "orcid-hotspot-match",
@@ -456,7 +469,9 @@
         "从 TB 迁移到呼吸感染",
         "从 GBD 迁移到非 GBD 公共数据",
         "从多组学迁移到可成药靶点"
-      ]
+      ],
+      "lane": "foundation",
+      "priority": 2
     },
     {
       "id": "ckm-ukb-ai",
@@ -497,7 +512,9 @@
         "CKM 分期转归",
         "肾代谢指标与 CVD 结局",
         "老龄人群异质性"
-      ]
+      ],
+      "lane": "main",
+      "priority": 3
     },
     {
       "id": "resp-drug-target",
@@ -539,7 +556,9 @@
         "COPD 炎症蛋白",
         "TB 宿主靶点",
         "呼吸感染后长期结局"
-      ]
+      ],
+      "lane": "watch",
+      "priority": 7
     },
     {
       "id": "multiomics-virtual-ko",
@@ -580,7 +599,9 @@
         "CXCL6 迁移到其他癌种",
         "TB 宿主基因扰动",
         "免疫通路虚拟验证"
-      ]
+      ],
+      "lane": "platform",
+      "priority": 8
     }
   ],
   "references": [
@@ -591,7 +612,17 @@
       "year": "2025",
       "doi": "10.1097/js9.0000000000003412",
       "pmid": "40990501",
-      "note": "TB 负担与 WHO/GBD 对照的核心背景。"
+      "note": "TB 负担与 WHO/GBD 对照的核心背景。",
+      "url": "",
+      "tags": [
+        "TB",
+        "GBD",
+        "WHO"
+      ],
+      "tier": "routine",
+      "cloudStatus": "unknown",
+      "verifiedBy": "",
+      "verifiedAt": ""
     },
     {
       "id": "tb-vaccine-review",
@@ -691,7 +722,16 @@
       "year": "2023",
       "doi": "",
       "pmid": "37794186",
-      "note": "pQTL/蛋白组 MR 数据基础。"
+      "note": "pQTL/蛋白组 MR 数据基础。",
+      "url": "",
+      "tags": [
+        "pQTL",
+        "UKB"
+      ],
+      "tier": "routine",
+      "cloudStatus": "unknown",
+      "verifiedBy": "",
+      "verifiedAt": ""
     },
     {
       "id": "immune-proteins-natimm",
@@ -700,7 +740,16 @@
       "year": "2023",
       "doi": "",
       "pmid": "37563310",
-      "note": "炎症蛋白与免疫疾病靶点。"
+      "note": "炎症蛋白与免疫疾病靶点。",
+      "url": "",
+      "tags": [
+        "pQTL",
+        "免疫"
+      ],
+      "tier": "routine",
+      "cloudStatus": "unknown",
+      "verifiedBy": "",
+      "verifiedAt": ""
     },
     {
       "id": "tb-burden-gbd-who-method",
@@ -737,6 +786,168 @@
       "doi": "",
       "pmid": "39261665",
       "note": "UKB 多组学与疾病预测范式。"
+    },
+    {
+      "id": "mr-davey-smith-2003",
+      "title": "Mendelian randomization: can genetic epidemiology contribute to understanding environmental determinants of disease?",
+      "journal": "International Journal of Epidemiology",
+      "year": "2003",
+      "doi": "10.1093/ije/dyg070",
+      "pmid": "",
+      "url": "",
+      "note": "MR 方法思想的基础文献。",
+      "tags": [
+        "MR",
+        "方法基础"
+      ],
+      "tier": "routine",
+      "cloudStatus": "unknown",
+      "verifiedBy": "",
+      "verifiedAt": ""
+    },
+    {
+      "id": "mr-base-elife-2018",
+      "title": "The MR-Base platform supports systematic causal inference across the human phenome.",
+      "journal": "eLife",
+      "year": "2018",
+      "doi": "10.7554/eLife.34408",
+      "pmid": "",
+      "url": "",
+      "note": "TwoSampleMR/MR-Base 平台基础文献。",
+      "tags": [
+        "MR",
+        "工具平台"
+      ],
+      "tier": "routine",
+      "cloudStatus": "unknown",
+      "verifiedBy": "",
+      "verifiedAt": ""
+    },
+    {
+      "id": "mr-guidelines-2020",
+      "title": "Guidelines for performing Mendelian randomization investigations.",
+      "journal": "Wellcome Open Research",
+      "year": "2020",
+      "doi": "10.12688/wellcomeopenres.15555.2",
+      "pmid": "",
+      "url": "",
+      "note": "MR 分析执行与报告的实用指南。",
+      "tags": [
+        "MR",
+        "报告规范"
+      ],
+      "tier": "routine",
+      "cloudStatus": "unknown",
+      "verifiedBy": "",
+      "verifiedAt": ""
+    },
+    {
+      "id": "strobe-mr-jama-2021",
+      "title": "Strengthening the Reporting of Observational Studies in Epidemiology Using Mendelian Randomization: The STROBE-MR Statement.",
+      "journal": "JAMA",
+      "year": "2021",
+      "doi": "10.1001/jama.2021.18236",
+      "pmid": "",
+      "url": "",
+      "note": "MR 报告规范，适合用于投稿前自查。",
+      "tags": [
+        "MR",
+        "报告规范"
+      ],
+      "tier": "routine",
+      "cloudStatus": "unknown",
+      "verifiedBy": "",
+      "verifiedAt": ""
+    },
+    {
+      "id": "citespace-2006",
+      "title": "CiteSpace II: Detecting and visualizing emerging trends and transient patterns in scientific literature.",
+      "journal": "Journal of the American Society for Information Science and Technology",
+      "year": "2006",
+      "doi": "10.1002/asi.20317",
+      "pmid": "",
+      "url": "",
+      "note": "知识图谱突现词、共被引网络常用工具基础文献。",
+      "tags": [
+        "文献计量",
+        "知识图谱"
+      ],
+      "tier": "routine",
+      "cloudStatus": "unknown",
+      "verifiedBy": "",
+      "verifiedAt": ""
+    },
+    {
+      "id": "vosviewer-2010",
+      "title": "Software survey: VOSviewer, a computer program for bibliometric mapping.",
+      "journal": "Scientometrics",
+      "year": "2010",
+      "doi": "10.1007/s11192-009-0146-3",
+      "pmid": "",
+      "url": "",
+      "note": "VOSviewer 共现图谱基础文献。",
+      "tags": [
+        "文献计量",
+        "工具平台"
+      ],
+      "tier": "routine",
+      "cloudStatus": "unknown",
+      "verifiedBy": "",
+      "verifiedAt": ""
+    },
+    {
+      "id": "bibliometrix-2017",
+      "title": "bibliometrix: An R-tool for comprehensive science mapping analysis.",
+      "journal": "Journal of Informetrics",
+      "year": "2017",
+      "doi": "10.1016/j.joi.2017.08.007",
+      "pmid": "",
+      "url": "",
+      "note": "R 端文献计量分析工具基础文献。",
+      "tags": [
+        "文献计量",
+        "工具平台"
+      ],
+      "tier": "routine",
+      "cloudStatus": "unknown",
+      "verifiedBy": "",
+      "verifiedAt": ""
+    },
+    {
+      "id": "gbd-2019-lancet",
+      "title": "Global burden of 369 diseases and injuries in 204 countries and territories, 1990–2019.",
+      "journal": "The Lancet",
+      "year": "2020",
+      "doi": "10.1016/S0140-6736(20)30925-9",
+      "pmid": "",
+      "url": "",
+      "note": "GBD 疾病负担分析的总框架参考。",
+      "tags": [
+        "GBD",
+        "疾病负担"
+      ],
+      "tier": "routine",
+      "cloudStatus": "unknown",
+      "verifiedBy": "",
+      "verifiedAt": ""
+    },
+    {
+      "id": "prisma-2020",
+      "title": "The PRISMA 2020 statement: an updated guideline for reporting systematic reviews.",
+      "journal": "BMJ",
+      "year": "2021",
+      "doi": "10.1136/bmj.n71",
+      "pmid": "",
+      "url": "",
+      "note": "系统综述/文献筛选流程可参考的报告规范。",
+      "tags": [
+        "综述",
+        "报告规范"
+      ],
+      "tier": "routine",
+      "cloudStatus": "unknown",
+      "verifiedBy": "",
+      "verifiedAt": ""
     }
   ],
   "papers": [
@@ -1025,6 +1236,38 @@
       "if_range": "BMJ (IF 105.7) → Gut (IF 24.5)",
       "tier": "Shallow Blue",
       "desc": "英国基层医疗电子健康记录，含6000万患者，覆盖处方+诊断+检验"
+    }
+  ],
+  "lanes": [
+    {
+      "id": "main",
+      "name": "主线推进",
+      "summary": "适合作为下一阶段重点推进的课题，页面主线优先展示。"
+    },
+    {
+      "id": "foundation",
+      "name": "基础导航",
+      "summary": "支撑 ORCID、热点匹配和个人能力画像，不直接等同于投稿题。"
+    },
+    {
+      "id": "review",
+      "name": "投稿复盘",
+      "summary": "已经做过但投稿不顺的方向，重点是复盘、补证据和改投。"
+    },
+    {
+      "id": "watch",
+      "name": "观察储备",
+      "summary": "有潜力但需要更多外部数据或政策事件验证。"
+    },
+    {
+      "id": "platform",
+      "name": "技术平台",
+      "summary": "沉淀为可复用代码和方法模块。"
+    },
+    {
+      "id": "archive",
+      "name": "归档参考",
+      "summary": "不再重复投入，但作为证据和经验保留。"
     }
   ]
 }
