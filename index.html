@@ -28,11 +28,11 @@
     <section id="overview" class="section hero">
       <div class="hero-text">
         <p class="eyebrow">综合科研工作台</p>
-        <h1>主线要清楚，证据要可追，细节等你需要时再展开</h1>
-        <p class="lead">这个版本把结核多组学+MR从“新推荐”改成“已完成投稿复盘”。页面主线优先显示下一步该推进什么，文献核实和方法证据收进可展开面板，避免首页被细节淹没。</p>
+        <h1>主线清楚，证据可追，核实状态可同步</h1>
+        <p class="lead">首页只放方向判断和路线。文献、方法、数据源都默认折叠；核实后可以直接同步到 GitHub 的 `data/verification.json`，页面更新后不再从头核。</p>
         <div class="hero-actions">
           <a class="btn primary" href="#route">看主线</a>
-          <a class="btn" href="#references">看云端核实记录</a>
+          <a class="btn" href="#references">同步文献核实</a>
         </div>
       </div>
       <div class="hero-metrics" id="hero-metrics"></div>
@@ -82,13 +82,25 @@
         <div>
           <p class="eyebrow">Reference Verification</p>
           <h2>文献核实</h2>
-          <p>页面会先读取云端 `data/verification.json`，再叠加本地修改。以后更新页面，不会覆盖已经写入云端的核实记录。</p>
+        <p>页面会先读取云端 `data/verification.json`，再叠加本地修改。核实完后可以直接同步到 GitHub，不用每次页面更新后重新核。</p>
         </div>
         <div class="tools">
           <button class="btn" id="filter-unverified">只看未核实</button>
           <button class="btn" id="filter-all">全部</button>
           <button class="btn" id="export-verification">导出本地记录</button>
         </div>
+      </div>
+      <div class="sync-panel">
+        <div>
+          <h3>同步到 GitHub</h3>
+          <p>使用一个只给 `research-navigator-hub` 仓库 `Contents: Read and write` 权限的 fine-grained token。默认只保存在当前标签页。</p>
+        </div>
+        <div class="sync-controls">
+          <input id="github-token" class="token-input" type="password" autocomplete="off" placeholder="粘贴最小权限 GitHub token">
+          <button class="btn primary" id="sync-cloud">同步到云端</button>
+          <button class="btn" id="reload-cloud">从云端刷新</button>
+        </div>
+        <p id="sync-status" class="sync-status">未开始同步。</p>
       </div>
       <div id="verification-note" class="cloud-note"></div>
       <div id="reference-list" class="reference-list"></div>
@@ -97,8 +109,8 @@
     <section id="quality" class="section quality">
       <article>
         <p class="eyebrow">Data Quality</p>
-        <h2>页面更新不会重置云端核实状态</h2>
-        <p>静态 GitHub Pages 不能在浏览器里直接写回仓库，否则需要暴露 GitHub token。现在采用更稳的方式：云端核实记录放在 `data/verification.json`，页面更新时会读取它；你在浏览器里临时点选的状态可以导出成 JSON，之后我可以帮你合并进云端文件。</p>
+        <h2>核实状态可以直接写回云端</h2>
+        <p>页面不会内置任何 token。你临时输入最小权限 token 后，页面会把当前浏览器里的核实状态合并进 `data/verification.json` 并提交。同步完成后，本地临时记录会清空，云端记录成为新的基线。</p>
       </article>
       <article>
         <p class="eyebrow">Submission Review</p>

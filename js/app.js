@@ -1,6 +1,11 @@
 const DATA_URL = 'data/research-data.json';
 const CLOUD_VERIFY_URL = 'data/verification.json';
 const LOCAL_KEY = 'jivon_reference_verification_local_v3';
+const TOKEN_SESSION_KEY = 'jivon_github_token_session_v1';
+const GITHUB_OWNER = 'JivonKiang';
+const GITHUB_REPO = 'research-navigator-hub';
+const GITHUB_BRANCH = 'main';
+const VERIFY_PATH = 'data/verification.json';
 
 const state = {
   data: null,
@@ -23,6 +28,10 @@ function loadLocal() {
 function saveLocal() {
   localStorage.setItem(LOCAL_KEY, JSON.stringify(state.local));
 }
+function clearLocal() {
+  state.local = {};
+  localStorage.removeItem(LOCAL_KEY);
+}
 function cloudStatus(id) {
   return state.cloud.references?.[id]?.status || 'unknown';
 }
@@ -32,7 +41,7 @@ function refStatus(id) {
 function cycleRef(id) {
   const order = ['unknown', 'verified', 'rejected'];
   const next = order[(order.indexOf(refStatus(id)) + 1) % order.length];
-  state.local[id] = { status: next, verifiedAt: new Date().toISOString().slice(0,10), source: 'browser-local' };
+  state.local[id] = { status: next, verifiedAt: new Date().toISOString().slice(0,10), verifiedBy: 'browser', source: 'browser-local' };
   saveLocal();
   renderAll();
 }
@@ -175,8 +184,132 @@ function refCard(r) {
 function renderReferences() {
   let refs = state.data.references;
   if (state.refFilter === 'unverified') refs = refs.filter(r => refStatus(r.id) === 'unknown');
-  $('#verification-note').innerHTML = `云端记录：${Object.keys(state.cloud.references || {}).length} 条；本地临时记录：${Object.keys(state.local).length} 条。导出的本地记录可以合并进 <code>data/verification.json</code>。`;
+  const localCount = Object.keys(state.local).length;
+  const verified = refs.filter(r => refStatus(r.id) === 'verified').length;
+  $('#verification-note').innerHTML = `云端记录：${Object.keys(state.cloud.references || {}).length} 条；本地待同步：${localCount} 条；当前列表已核实：${verified} 条。`;
   $('#reference-list').innerHTML = refs.map(refCard).join('') || '<p class="empty">没有符合条件的文献。</p>';
+}
+
+function setSyncStatus(message, type = '') {
+  const el = $('#sync-status');
+  if (!el) return;
+  el.textContent = message;
+  el.className = `sync-status ${type}`;
+}
+
+function getToken() {
+  const input = $('#github-token');
+  const token = (input?.value || '').trim() || sessionStorage.getItem(TOKEN_SESSION_KEY) || '';
+  if (token) sessionStorage.setItem(TOKEN_SESSION_KEY, token);
+  return token;
+}
+
+function toBase64(str) {
+  const bytes = new TextEncoder().encode(str);
+  let binary = '';
+  bytes.forEach(byte => { binary += String.fromCharCode(byte); });
+  return btoa(binary);
+}
+
+function fromBase64(str) {
+  const clean = String(str || '').replace(/\s/g, '');
+  const binary = atob(clean);
+  const bytes = Uint8Array.from(binary, ch => ch.charCodeAt(0));
+  return new TextDecoder().decode(bytes);
+}
+
+async function githubRequest(url, options = {}) {
+  const token = getToken();
+  if (!token) throw new Error('请先粘贴一个只给本仓库 Contents 读写权限的 GitHub token。');
+  const res = await fetch(url, {
+    ...options,
+    headers: {
+      'Accept': 'application/vnd.github+json',
+      'Authorization': `Bearer ${token}`,
+      'X-GitHub-Api-Version': '2022-11-28',
+      ...(options.headers || {})
+    }
+  });
+  const text = await res.text();
+  let data = {};
+  try { data = text ? JSON.parse(text) : {}; } catch { data = { message: text }; }
+  if (!res.ok) {
+    const msg = data.message || `GitHub API 请求失败：${res.status}`;
+    throw new Error(msg);
+  }
+  return data;
+}
+
+function buildMergedVerification(base) {
+  const now = new Date().toISOString().slice(0, 10);
+  const merged = {
+    schema: 1,
+    updated: now,
+    note: '页面启动时会先读取这个云端核实记录，再叠加浏览器本地核实记录。后续更新页面不会丢失已写入此文件的核实状态。',
+    references: { ...(base.references || {}) }
+  };
+  state.data.references.forEach(ref => {
+    if (!merged.references[ref.id]) {
+      merged.references[ref.id] = {
+        status: 'unknown',
+        verifiedBy: '',
+        verifiedAt: '',
+        note: ref.note || ''
+      };
+    }
+  });
+  Object.entries(state.local).forEach(([id, record]) => {
+    const ref = refById(id);
+    merged.references[id] = {
+      ...(merged.references[id] || {}),
+      status: record.status || 'unknown',
+      verifiedBy: record.verifiedBy || 'browser',
+      verifiedAt: record.verifiedAt || now,
+      note: ref?.note || merged.references[id]?.note || ''
+    };
+  });
+  return merged;
+}
+
+async function reloadCloudVerification() {
+  setSyncStatus('正在从云端刷新核实记录...', 'working');
+  const fresh = await fetch(`${CLOUD_VERIFY_URL}?t=${Date.now()}`);
+  if (!fresh.ok) throw new Error('无法读取云端 verification.json。');
+  state.cloud = await fresh.json();
+  renderAll();
+  setSyncStatus(`已刷新云端记录：${Object.keys(state.cloud.references || {}).length} 条。`, 'ok');
+}
+
+async function syncVerificationToGitHub() {
+  try {
+    const localCount = Object.keys(state.local).length;
+    if (!localCount) {
+      setSyncStatus('没有待同步的本地核实记录。', 'ok');
+      return;
+    }
+    setSyncStatus('正在读取 GitHub 上的 verification.json...', 'working');
+    const apiUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${VERIFY_PATH}?ref=${GITHUB_BRANCH}`;
+    const current = await githubRequest(apiUrl);
+    const currentJson = JSON.parse(fromBase64(current.content || 'e30='));
+    const merged = buildMergedVerification(currentJson);
+    const body = {
+      message: `chore: sync reference verification ${new Date().toISOString().slice(0, 10)}`,
+      content: toBase64(JSON.stringify(merged, null, 2)),
+      sha: current.sha,
+      branch: GITHUB_BRANCH
+    };
+    setSyncStatus(`正在提交 ${localCount} 条核实记录到 GitHub...`, 'working');
+    await githubRequest(`https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${VERIFY_PATH}`, {
+      method: 'PUT',
+      body: JSON.stringify(body)
+    });
+    state.cloud = merged;
+    clearLocal();
+    renderAll();
+    setSyncStatus('同步完成。云端 verification.json 已更新，本地待同步记录已清空。', 'ok');
+  } catch (err) {
+    setSyncStatus(`同步失败：${err.message}`, 'error');
+  }
 }
 
 function renderAll() {
@@ -194,6 +327,8 @@ function bind() {
   $('#search').addEventListener('input', e => { state.search = e.target.value; renderIdeas(); });
   $('#filter-unverified').addEventListener('click', () => { state.refFilter = 'unverified'; renderReferences(); });
   $('#filter-all').addEventListener('click', () => { state.refFilter = 'all'; renderReferences(); });
+  $('#sync-cloud').addEventListener('click', syncVerificationToGitHub);
+  $('#reload-cloud').addEventListener('click', () => reloadCloudVerification().catch(err => setSyncStatus(`刷新失败：${err.message}`, 'error')));
   $('#export-verification').addEventListener('click', () => {
     const blob = new Blob([JSON.stringify({updated:new Date().toISOString(), references: state.local}, null, 2)], {type:'application/json'});
     const a = document.createElement('a');

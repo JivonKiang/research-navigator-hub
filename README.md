@@ -13,7 +13,7 @@ GitHub Pages: https://jivonkiang.github.io/research-navigator-hub/
 - 路线图：用分层卡片替代拥挤的力导向网络图，兼顾桌面和手机端阅读。
 - Idea 详情：研究设计、数据源、产出物和文献证据默认折叠，需要时展开。
 - 文献核实：所有参考文献默认 `?`，人工确认后可切换为 `✓`，否决可切换为 `×`。
-- 云端核实：`data/verification.json` 保存核实状态，页面更新不会重置已写入云端的记录。
+- 云端核实：页面可使用临时输入的最小权限 GitHub token，把本地核实状态同步到 `data/verification.json`。
 - 结核多组学 + MR：已从新主线推荐改为“已完成 · 投稿复盘”。
 
 ## 数据文件
@@ -25,4 +25,5 @@ GitHub Pages: https://jivonkiang.github.io/research-navigator-hub/
 
 - 正式证据区不展示 `GEN...` 伪 PMID。
 - 无 PMID 的文献保留 DOI 或 PubMed 标题检索入口。
-- 浏览器本地核实状态可以导出为 JSON，再合并进 `data/verification.json`。
+- 浏览器本地核实状态可以直接同步到 GitHub，也可以导出为 JSON 备份。
+- 同步所需 token 只应授予本仓库 `Contents: Read and write` 权限，不要使用全权限 token。
