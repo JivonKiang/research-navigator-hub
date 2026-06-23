@@ -92,15 +92,17 @@
       </div>
       <div class="sync-panel">
         <div>
-          <h3>同步到 GitHub</h3>
-          <p>使用一个只给 `research-navigator-hub` 仓库 `Contents: Read and write` 权限的 fine-grained token。默认只保存在当前标签页。</p>
+          <h3>自动同步到 GitHub</h3>
+          <p>不能把 token 嵌入公开页面；这里采用一次本机授权。保存最小权限 token 后，你每次核实文献都会自动同步到 `data/verification.json`。</p>
         </div>
         <div class="sync-controls">
-          <input id="github-token" class="token-input" type="password" autocomplete="off" placeholder="粘贴最小权限 GitHub token">
+          <input id="github-token" class="token-input" type="password" autocomplete="off" placeholder="粘贴最小权限 GitHub token，只保存在你的浏览器">
+          <button class="btn primary" id="save-auto-token">保存到本机并开启自动同步</button>
           <button class="btn primary" id="sync-cloud">同步到云端</button>
+          <button class="btn" id="clear-auto-token">关闭自动同步</button>
           <button class="btn" id="reload-cloud">从云端刷新</button>
         </div>
-        <p id="sync-status" class="sync-status">未开始同步。</p>
+        <p id="sync-status" class="sync-status">未开启自动同步。你可以先核实，稍后手动同步；也可以保存 token 后自动同步。</p>
       </div>
       <div id="verification-note" class="cloud-note"></div>
       <div id="reference-list" class="reference-list"></div>

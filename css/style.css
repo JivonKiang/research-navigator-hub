@@ -144,7 +144,8 @@ summary { cursor: pointer; padding: 12px 14px; font-weight: 800; color: var(--in
 }
 .sync-panel h3 { margin-bottom: 4px; }
 .sync-panel p { margin-bottom: 0; }
-.sync-controls { display: grid; gap: 9px; }
+.sync-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+.sync-controls .token-input { grid-column: 1 / -1; }
 .token-input {
   width: 100%;
   border: 1px solid var(--rule);
@@ -177,6 +178,8 @@ summary { cursor: pointer; padding: 12px 14px; font-weight: 800; color: var(--in
   .hero { grid-template-columns: 1fr; min-height: auto; padding-top: 86px; }
   .section-head.with-tools, .route-board, .quality { grid-template-columns: 1fr; display: grid; align-items: start; }
   .sync-panel { grid-template-columns: 1fr; }
+  .sync-controls { grid-template-columns: 1fr; }
+  .sync-controls .token-input { grid-column: auto; }
   .route-map { grid-template-columns: 1fr; }
   .map-column { min-height: auto; }
   .idea-list, .routine-groups { grid-template-columns: 1fr; }

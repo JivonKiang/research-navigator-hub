@@ -2,6 +2,8 @@ const DATA_URL = 'data/research-data.json';
 const CLOUD_VERIFY_URL = 'data/verification.json';
 const LOCAL_KEY = 'jivon_reference_verification_local_v3';
 const TOKEN_SESSION_KEY = 'jivon_github_token_session_v1';
+const TOKEN_LOCAL_KEY = 'jivon_github_token_local_v1';
+const AUTO_SYNC_KEY = 'jivon_auto_sync_enabled_v1';
 const GITHUB_OWNER = 'JivonKiang';
 const GITHUB_REPO = 'research-navigator-hub';
 const GITHUB_BRANCH = 'main';
@@ -12,7 +14,9 @@ const state = {
   cloud: { references: {} },
   local: {},
   refFilter: 'all',
-  search: ''
+  search: '',
+  syncTimer: null,
+  syncInFlight: false
 };
 
 const $ = (s) => document.querySelector(s);
@@ -44,6 +48,7 @@ function cycleRef(id) {
   state.local[id] = { status: next, verifiedAt: new Date().toISOString().slice(0,10), verifiedBy: 'browser', source: 'browser-local' };
   saveLocal();
   renderAll();
+  scheduleAutoSync();
 }
 function mark(status) { return status === 'verified' ? '✓' : status === 'rejected' ? '×' : '?'; }
 function refById(id) { return state.data.references.find(r => r.id === id); }
@@ -199,9 +204,43 @@ function setSyncStatus(message, type = '') {
 
 function getToken() {
   const input = $('#github-token');
-  const token = (input?.value || '').trim() || sessionStorage.getItem(TOKEN_SESSION_KEY) || '';
+  const token = (input?.value || '').trim() || sessionStorage.getItem(TOKEN_SESSION_KEY) || localStorage.getItem(TOKEN_LOCAL_KEY) || '';
   if (token) sessionStorage.setItem(TOKEN_SESSION_KEY, token);
   return token;
+}
+
+function autoSyncEnabled() {
+  return localStorage.getItem(AUTO_SYNC_KEY) === 'true' && !!localStorage.getItem(TOKEN_LOCAL_KEY);
+}
+
+function saveAutoToken() {
+  const token = ($('#github-token')?.value || '').trim();
+  if (!token) {
+    setSyncStatus('请先粘贴一个 fine-grained token。', 'error');
+    return;
+  }
+  localStorage.setItem(TOKEN_LOCAL_KEY, token);
+  sessionStorage.setItem(TOKEN_SESSION_KEY, token);
+  localStorage.setItem(AUTO_SYNC_KEY, 'true');
+  $('#github-token').value = '';
+  setSyncStatus('已开启自动同步。之后点击文献状态会自动写回 GitHub。', 'ok');
+}
+
+function clearAutoToken() {
+  localStorage.removeItem(TOKEN_LOCAL_KEY);
+  sessionStorage.removeItem(TOKEN_SESSION_KEY);
+  localStorage.removeItem(AUTO_SYNC_KEY);
+  setSyncStatus('已关闭自动同步。本地核实记录仍会保留，可手动同步或重新开启。', 'ok');
+}
+
+function scheduleAutoSync() {
+  if (!autoSyncEnabled()) {
+    setSyncStatus(`已保存到本地，尚未自动同步。当前待同步：${Object.keys(state.local).length} 条。`, 'working');
+    return;
+  }
+  clearTimeout(state.syncTimer);
+  setSyncStatus('已记录更改，准备自动同步到 GitHub...', 'working');
+  state.syncTimer = setTimeout(() => syncVerificationToGitHub({ automatic: true }), 900);
 }
 
 function toBase64(str) {
@@ -280,13 +319,15 @@ async function reloadCloudVerification() {
   setSyncStatus(`已刷新云端记录：${Object.keys(state.cloud.references || {}).length} 条。`, 'ok');
 }
 
-async function syncVerificationToGitHub() {
+async function syncVerificationToGitHub(options = {}) {
   try {
+    if (state.syncInFlight) return;
     const localCount = Object.keys(state.local).length;
     if (!localCount) {
       setSyncStatus('没有待同步的本地核实记录。', 'ok');
       return;
     }
+    state.syncInFlight = true;
     setSyncStatus('正在读取 GitHub 上的 verification.json...', 'working');
     const apiUrl = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/${VERIFY_PATH}?ref=${GITHUB_BRANCH}`;
     const current = await githubRequest(apiUrl);
@@ -306,9 +347,11 @@ async function syncVerificationToGitHub() {
     state.cloud = merged;
     clearLocal();
     renderAll();
-    setSyncStatus('同步完成。云端 verification.json 已更新，本地待同步记录已清空。', 'ok');
+    setSyncStatus(options.automatic ? '自动同步完成。云端 verification.json 已更新。' : '同步完成。云端 verification.json 已更新，本地待同步记录已清空。', 'ok');
   } catch (err) {
-    setSyncStatus(`同步失败：${err.message}`, 'error');
+    setSyncStatus(`${options.automatic ? '自动同步失败' : '同步失败'}：${err.message}`, 'error');
+  } finally {
+    state.syncInFlight = false;
   }
 }
 
@@ -328,6 +371,8 @@ function bind() {
   $('#filter-unverified').addEventListener('click', () => { state.refFilter = 'unverified'; renderReferences(); });
   $('#filter-all').addEventListener('click', () => { state.refFilter = 'all'; renderReferences(); });
   $('#sync-cloud').addEventListener('click', syncVerificationToGitHub);
+  $('#save-auto-token').addEventListener('click', saveAutoToken);
+  $('#clear-auto-token').addEventListener('click', clearAutoToken);
   $('#reload-cloud').addEventListener('click', () => reloadCloudVerification().catch(err => setSyncStatus(`刷新失败：${err.message}`, 'error')));
   $('#export-verification').addEventListener('click', () => {
     const blob = new Blob([JSON.stringify({updated:new Date().toISOString(), references: state.local}, null, 2)], {type:'application/json'});
@@ -351,6 +396,7 @@ async function init() {
   state.local = loadLocal();
   bind();
   renderAll();
+  if (autoSyncEnabled()) setSyncStatus('自动同步已开启。你核实文献后会自动写回 GitHub。', 'ok');
 }
 
 window.cycleRef = cycleRef;
