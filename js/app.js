@@ -1,15 +1,29 @@
 const DATA_URL = 'data/research-data.json';
-const VERIFY_KEY = 'jivon_research_reference_status_v1';
-const IDEA_KEY = 'jivon_research_selected_idea_v1';
+const VERIFY_KEY = 'jivon_research_reference_status_v2';
+const SELECT_KEY = 'jivon_research_selected_idea_v2';
 
-let state = {
+const state = {
   data: null,
   filter: 'all',
-  selectedIdea: null,
-  search: ''
+  search: '',
+  refFilter: 'all',
+  selectedIdea: null
 };
 
-function loadVerifyState() {
+const $ = selector => document.querySelector(selector);
+const $$ = selector => Array.from(document.querySelectorAll(selector));
+
+function escapeHtml(value) {
+  return String(value ?? '').replace(/[&<>"']/g, char => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;'
+  })[char]);
+}
+
+function verifyStore() {
   try {
     return JSON.parse(localStorage.getItem(VERIFY_KEY) || '{}');
   } catch {
@@ -17,21 +31,21 @@ function loadVerifyState() {
   }
 }
 
-function saveVerifyState(next) {
+function setVerifyStore(next) {
   localStorage.setItem(VERIFY_KEY, JSON.stringify(next));
 }
 
 function refStatus(refId) {
-  return loadVerifyState()[refId] || 'unknown';
+  return verifyStore()[refId] || 'unknown';
 }
 
-function cycleRefStatus(refId) {
-  const statuses = ['unknown', 'verified', 'rejected'];
+function cycleRef(refId) {
+  const order = ['unknown', 'verified', 'rejected'];
   const current = refStatus(refId);
-  const next = statuses[(statuses.indexOf(current) + 1) % statuses.length];
-  const all = loadVerifyState();
+  const next = order[(order.indexOf(current) + 1) % order.length];
+  const all = verifyStore();
   all[refId] = next;
-  saveVerifyState(all);
+  setVerifyStore(all);
   renderAll();
 }
 
@@ -41,14 +55,20 @@ function statusMark(status) {
   return '?';
 }
 
-function safeText(value) {
-  return String(value || '').replace(/[&<>"']/g, char => ({
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    "'": '&#039;'
-  })[char]);
+function refById(id) {
+  return state.data.references.find(ref => ref.id === id);
+}
+
+function fieldById(id) {
+  return state.data.fields.find(field => field.id === id);
+}
+
+function methodById(id) {
+  return state.data.methods.find(method => method.id === id);
+}
+
+function refsForIdea(idea) {
+  return idea.references.map(refById).filter(Boolean);
 }
 
 function pubmedUrl(ref) {
@@ -61,280 +81,324 @@ function doiUrl(ref) {
   return ref.doi ? `https://doi.org/${encodeURIComponent(ref.doi)}` : '';
 }
 
-function referenceById(id) {
-  return state.data.references.find(ref => ref.id === id);
-}
-
-function fieldById(id) {
-  return state.data.fields.find(field => field.id === id);
-}
-
-function methodById(id) {
-  return state.data.methods.find(method => method.id === id);
-}
-
 function filteredIdeas() {
   const term = state.search.trim().toLowerCase();
   return state.data.ideas.filter(idea => {
-    const refs = idea.references.map(referenceById).filter(Boolean);
-    const hasUnverified = refs.some(ref => refStatus(ref.id) === 'unknown');
+    const refs = refsForIdea(idea);
+    const unknown = refs.some(ref => refStatus(ref.id) === 'unknown');
     if (state.filter === 'tb' && idea.field !== 'tb') return false;
     if (state.filter === 'high' && idea.feasibility < 85) return false;
-    if (state.filter === 'unverified' && !hasUnverified) return false;
+    if (state.filter === 'unverified' && !unknown) return false;
     if (term) {
       const field = fieldById(idea.field);
       const method = methodById(idea.method);
-      const haystack = [idea.title, idea.question, field?.name, method?.name]
-        .join(' ')
-        .toLowerCase();
-      if (!haystack.includes(term)) return false;
+      const text = [
+        idea.title, idea.question, idea.rationale, idea.stage,
+        field?.name, method?.name, ...(idea.dataSources || []), ...(idea.brainstorm || [])
+      ].join(' ').toLowerCase();
+      if (!text.includes(term)) return false;
     }
     return true;
   });
 }
 
-function renderMetrics() {
-  const refs = state.data.references;
-  const verified = refs.filter(ref => refStatus(ref.id) === 'verified').length;
-  document.getElementById('metric-ideas').textContent = state.data.ideas.length;
-  document.getElementById('metric-refs').textContent = refs.length;
-  document.getElementById('metric-verified').textContent = verified;
+function scoreClass(value) {
+  if (value >= 85) return 'green';
+  if (value >= 75) return 'amber';
+  return '';
 }
 
-function renderScoreBars(idea) {
+function renderMetrics() {
+  const ideas = state.data.ideas;
+  const refs = state.data.references;
+  const store = verifyStore();
+  const verified = refs.filter(ref => store[ref.id] === 'verified').length;
+  const unknown = refs.length - refs.filter(ref => store[ref.id] === 'verified' || store[ref.id] === 'rejected').length;
+  const high = ideas.filter(idea => idea.feasibility >= 85).length;
+  $('#metric-stack').innerHTML = [
+    ['Idea 总数', ideas.length],
+    ['参考文献', refs.length],
+    ['高可行性', high],
+    ['待核实', unknown]
+  ].map(([label, value]) => `<div class="metric-row"><span>${label}</span><strong>${value}</strong></div>`).join('');
+
+  const pct = refs.length ? Math.round((verified / refs.length) * 100) : 0;
+  const donut = $('#verify-donut');
+  donut.style.setProperty('--p', `${pct}%`);
+  donut.dataset.label = `${pct}%`;
+  $('#verify-copy').textContent = `${verified}/${refs.length} 条参考文献已人工核实。未核实不会被页面默认当作可靠证据。`;
+}
+
+function renderOverview() {
+  const top = [...state.data.ideas].sort((a, b) => b.feasibility - a.feasibility).slice(0, 4);
+  $('#priority-list').innerHTML = top.map((idea, index) => {
+    const field = fieldById(idea.field);
+    return `<div class="priority-item" onclick="selectIdea('${escapeHtml(idea.id)}', true)">
+      <span class="rank">${index + 1}</span>
+      <div>
+        <strong>${escapeHtml(idea.title)}</strong>
+        <p style="margin:0;color:var(--muted);font-size:.88rem">${escapeHtml(field?.name)} · ${escapeHtml(idea.stage || '待判断')}</p>
+      </div>
+      <span class="badge ${scoreClass(idea.feasibility)}">可行性 ${idea.feasibility}</span>
+    </div>`;
+  }).join('');
+
+  const counts = {};
+  state.data.ideas.forEach(idea => {
+    const field = fieldById(idea.field)?.name || idea.field;
+    counts[field] = (counts[field] || 0) + 1;
+  });
+  const max = Math.max(...Object.values(counts), 1);
+  $('#field-summary').innerHTML = Object.entries(counts).map(([name, count]) => `
+    <div class="mini-row">
+      <span>${escapeHtml(name)}</span><strong>${count}</strong>
+      <div class="mini-bar"><span style="width:${count / max * 100}%"></span></div>
+    </div>
+  `).join('');
+}
+
+function scoreBars(idea) {
   const rows = [
-    ['可行性', idea.feasibility],
-    ['创新性', idea.novelty],
-    ['证据', idea.evidence],
-    ['难度', idea.difficulty * 20]
+    ['可行性', idea.feasibility, 'var(--green)'],
+    ['创新性', idea.novelty, 'var(--accent-2)'],
+    ['证据', idea.evidence, 'var(--accent)'],
+    ['难度', idea.difficulty * 20, 'var(--amber)', `${idea.difficulty}/5`]
   ];
-  return `<div class="score-bars">${rows.map(([label, value]) => `
+  return `<div class="score-grid">${rows.map(([label, value, color, text]) => `
     <div class="score-row">
       <span>${label}</span>
-      <div class="bar"><span style="width:${value}%;background:${label === '难度' ? 'var(--amber)' : 'var(--green)'}"></span></div>
-      <strong>${label === '难度' ? idea.difficulty + '/5' : value}</strong>
+      <div class="bar"><span style="width:${value}%;background:${color}"></span></div>
+      <strong>${text || value}</strong>
     </div>
   `).join('')}</div>`;
 }
 
-function renderReference(ref) {
+function renderNetwork() {
+  const ideas = filteredIdeas();
+  const fields = state.data.fields.filter(field => ideas.some(idea => idea.field === field.id));
+  const methods = state.data.methods.filter(method => ideas.some(idea => idea.method === method.id));
+  const width = 1000;
+  const height = 640;
+  const leftX = 170;
+  const rightX = 830;
+  const fieldPositions = new Map();
+  const methodPositions = new Map();
+  fields.forEach((field, index) => {
+    fieldPositions.set(field.id, { x: leftX, y: 90 + index * ((height - 180) / Math.max(fields.length - 1, 1)) });
+  });
+  methods.forEach((method, index) => {
+    methodPositions.set(method.id, { x: rightX, y: 90 + index * ((height - 180) / Math.max(methods.length - 1, 1)) });
+  });
+
+  const links = ideas.map(idea => {
+    const source = fieldPositions.get(idea.field);
+    const target = methodPositions.get(idea.method);
+    if (!source || !target) return '';
+    const color = idea.feasibility >= 85 ? 'var(--green)' : idea.feasibility >= 78 ? 'var(--amber)' : 'var(--muted)';
+    const selected = state.selectedIdea?.id === idea.id;
+    const width = selected ? 8 : Math.max(2.5, idea.feasibility / 18);
+    const opacity = selected ? 0.95 : 0.62;
+    const midX = (source.x + target.x) / 2;
+    const midY = (source.y + target.y) / 2;
+    return `<g>
+      <path class="link" d="M ${source.x + 44} ${source.y} C ${source.x + 230} ${source.y}, ${target.x - 230} ${target.y}, ${target.x - 44} ${target.y}"
+        fill="none" stroke="${color}" stroke-width="${width}" stroke-opacity="${opacity}" onclick="selectIdea('${escapeHtml(idea.id)}')">
+        <title>${escapeHtml(idea.title)}｜可行性 ${idea.feasibility}</title>
+      </path>
+      <text class="link-label" x="${midX}" y="${midY - 6}" text-anchor="middle">${idea.feasibility}</text>
+    </g>`;
+  }).join('');
+
+  const fieldNodes = fields.map(field => {
+    const pos = fieldPositions.get(field.id);
+    return `<g class="node" transform="translate(${pos.x},${pos.y})">
+      <circle r="46" fill="var(--accent)"></circle>
+      <text text-anchor="middle" y="-4">${escapeHtml(field.name.slice(0, 7))}</text>
+      <text text-anchor="middle" y="14">${field.name.length > 7 ? '…' : ''}</text>
+      <title>${escapeHtml(field.name)}｜${escapeHtml(field.summary)}</title>
+    </g>`;
+  }).join('');
+
+  const methodNodes = methods.map(method => {
+    const pos = methodPositions.get(method.id);
+    return `<g class="node" transform="translate(${pos.x},${pos.y})">
+      <circle r="42" fill="var(--accent-2)"></circle>
+      <text text-anchor="middle" y="-4">${escapeHtml(method.name.slice(0, 7))}</text>
+      <text text-anchor="middle" y="14">${method.name.length > 7 ? '…' : ''}</text>
+      <title>${escapeHtml(method.name)}</title>
+    </g>`;
+  }).join('');
+
+  $('#network-canvas').innerHTML = `<svg viewBox="0 0 ${width} ${height}" role="img" aria-label="领域与方法交互网络图">
+    <text x="${leftX}" y="38" text-anchor="middle" fill="var(--muted)" font-weight="800">研究方向</text>
+    <text x="${rightX}" y="38" text-anchor="middle" fill="var(--muted)" font-weight="800">方法套路</text>
+    ${links}
+    ${fieldNodes}
+    ${methodNodes}
+  </svg>`;
+}
+
+function renderIdeaDetail() {
+  const idea = state.selectedIdea || filteredIdeas()[0] || state.data.ideas[0];
+  if (!idea) {
+    $('#idea-detail').innerHTML = '<p>没有匹配的 idea。</p>';
+    return;
+  }
+  const field = fieldById(idea.field);
+  const method = methodById(idea.method);
+  const refs = refsForIdea(idea);
+  $('#idea-detail').innerHTML = `
+    <div class="badge-row">
+      <span class="badge">${escapeHtml(field?.name)}</span>
+      <span class="badge">${escapeHtml(method?.name)}</span>
+      <span class="badge ${scoreClass(idea.feasibility)}">${escapeHtml(idea.stage || '待判断')}</span>
+    </div>
+    <h2>${escapeHtml(idea.title)}</h2>
+    <p>${escapeHtml(idea.question)}</p>
+    ${scoreBars(idea)}
+    <div class="detail-block">
+      <h3>为什么值得看</h3>
+      <p>${escapeHtml(idea.rationale || '待补充。')}</p>
+    </div>
+    <div class="detail-block">
+      <h3>研究设计</h3>
+      <ul>${(idea.design || []).map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>
+    </div>
+    <div class="detail-block">
+      <h3>数据源与产出</h3>
+      <div class="badge-row">${(idea.dataSources || []).map(item => `<span class="badge">${escapeHtml(item)}</span>`).join('')}</div>
+      <ul>${(idea.outputs || []).map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>
+    </div>
+    <div class="detail-block">
+      <h3>参考文献</h3>
+      ${refs.map(renderRefCard).join('')}
+    </div>
+  `;
+}
+
+function renderIdeaCards() {
+  const ideas = filteredIdeas();
+  $('#idea-list').innerHTML = ideas.map(idea => {
+    const field = fieldById(idea.field);
+    const method = methodById(idea.method);
+    const refs = refsForIdea(idea);
+    const unknown = refs.filter(ref => refStatus(ref.id) === 'unknown').length;
+    const active = state.selectedIdea?.id === idea.id ? 'active' : '';
+    return `<article class="idea-card ${active}" onclick="selectIdea('${escapeHtml(idea.id)}', true)">
+      <div class="badge-row">
+        <span class="badge">${escapeHtml(field?.name)}</span>
+        <span class="badge">${escapeHtml(method?.name)}</span>
+      </div>
+      <h3>${escapeHtml(idea.title)}</h3>
+      <p>${escapeHtml(idea.question)}</p>
+      ${scoreBars(idea)}
+      <div class="card-footer">
+        <span>${refs.length} 条文献 · ${unknown} 条未核实</span>
+        <span>${escapeHtml(idea.stage || '')}</span>
+      </div>
+    </article>`;
+  }).join('') || '<p>没有符合条件的 idea。</p>';
+}
+
+function renderBrainstorm() {
+  const items = state.data.ideas.slice(0, 8);
+  $('#brainstorm-board').innerHTML = items.map(idea => `
+    <article class="brainstorm-card">
+      <h3>${escapeHtml(idea.title)}</h3>
+      <ul>${(idea.brainstorm || []).map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>
+    </article>
+  `).join('');
+}
+
+function renderRefCard(ref) {
   const status = refStatus(ref.id);
   const doi = doiUrl(ref);
-  return `
-    <article class="ref-card" id="ref-${safeText(ref.id)}">
-      <div class="ref-title">${safeText(ref.title)}</div>
-      <div class="ref-meta">${safeText(ref.journal)} · ${safeText(ref.year)}${ref.pmid ? ` · PMID: ${safeText(ref.pmid)}` : ''}${ref.doi ? ` · DOI: ${safeText(ref.doi)}` : ''}</div>
-      <p class="ref-meta">${safeText(ref.note || '')}</p>
-      <div class="ref-actions">
-        <button class="verify-btn ${status}" onclick="cycleRefStatus('${safeText(ref.id)}')" title="点击切换：? 未核实 → ✓ 已核实 → × 已否决">${statusMark(status)}</button>
-        <a href="${pubmedUrl(ref)}" target="_blank" rel="noopener">PubMed 核实</a>
-        ${doi ? `<a href="${doi}" target="_blank" rel="noopener">DOI</a>` : ''}
-        ${ref.url ? `<a href="${safeText(ref.url)}" target="_blank" rel="noopener">来源</a>` : ''}
-      </div>
-    </article>
-  `;
-}
-
-function renderIdeaCard(idea) {
-  const field = fieldById(idea.field);
-  const method = methodById(idea.method);
-  const refs = idea.references.map(referenceById).filter(Boolean);
-  const unknownCount = refs.filter(ref => refStatus(ref.id) === 'unknown').length;
-  return `
-    <article class="idea-card" onclick="selectIdea('${safeText(idea.id)}')">
-      <div class="badges">
-        <span class="badge">${safeText(field?.name)}</span>
-        <span class="badge">${safeText(method?.name)}</span>
-        <span class="badge">${unknownCount} 条待核实</span>
-      </div>
-      <h3>${safeText(idea.title)}</h3>
-      <p>${safeText(idea.question)}</p>
-      ${renderScoreBars(idea)}
-    </article>
-  `;
-}
-
-function renderIdeas() {
-  const list = document.getElementById('idea-list');
-  const ideas = filteredIdeas();
-  list.innerHTML = ideas.map(renderIdeaCard).join('') || '<p class="empty">没有符合筛选条件的 idea。</p>';
-}
-
-function renderDetail() {
-  const target = document.getElementById('idea-detail');
-  const idea = state.selectedIdea || filteredIdeas()[0] || state.data.ideas[0];
-  if (!idea) return;
-  const field = fieldById(idea.field);
-  const method = methodById(idea.method);
-  const refs = idea.references.map(referenceById).filter(Boolean);
-  target.innerHTML = `
-    <div class="badges">
-      <span class="badge">${safeText(field?.name)}</span>
-      <span class="badge">${safeText(method?.name)}</span>
-      <span class="badge">可行性 ${idea.feasibility}</span>
+  return `<article class="ref-card">
+    <div class="ref-title">${escapeHtml(ref.title)}</div>
+    <div class="ref-meta">${escapeHtml(ref.journal)} · ${escapeHtml(ref.year)}${ref.pmid ? ` · PMID: ${escapeHtml(ref.pmid)}` : ''}${ref.doi ? ` · DOI: ${escapeHtml(ref.doi)}` : ''}</div>
+    <div class="ref-note">${escapeHtml(ref.note || '')}</div>
+    <div class="ref-actions">
+      <button class="verify-btn ${status}" onclick="cycleRef('${escapeHtml(ref.id)}')" title="? 未核实，✓ 已核实，× 已否决">${statusMark(status)}</button>
+      <a href="${pubmedUrl(ref)}" target="_blank" rel="noopener">PubMed 核实</a>
+      ${doi ? `<a href="${doi}" target="_blank" rel="noopener">DOI</a>` : ''}
+      ${ref.url ? `<a href="${escapeHtml(ref.url)}" target="_blank" rel="noopener">来源</a>` : ''}
     </div>
-    <h3>${safeText(idea.title)}</h3>
-    <p>${safeText(idea.question)}</p>
-    ${renderScoreBars(idea)}
-    <h3 style="margin-top:18px;">参考文献核实</h3>
-    <p class="empty">点击 PubMed 核实打开检索页；确认无误后点击问号切换为对号。核实状态只保存在当前浏览器。</p>
-    ${refs.map(renderReference).join('')}
-  `;
+  </article>`;
 }
 
 function renderReferences() {
-  document.getElementById('reference-list').innerHTML = state.data.references.map(renderReference).join('');
+  let refs = state.data.references;
+  if (state.refFilter === 'unknown') refs = refs.filter(ref => refStatus(ref.id) === 'unknown');
+  $('#reference-list').innerHTML = refs.map(renderRefCard).join('') || '<p>当前没有符合条件的参考文献。</p>';
 }
 
-function selectIdea(id) {
-  state.selectedIdea = state.data.ideas.find(idea => idea.id === id) || null;
-  localStorage.setItem(IDEA_KEY, id);
-  renderDetail();
+function selectIdea(id, scrollDetail = false) {
+  state.selectedIdea = state.data.ideas.find(idea => idea.id === id) || state.selectedIdea;
+  if (state.selectedIdea) localStorage.setItem(SELECT_KEY, state.selectedIdea.id);
   renderNetwork();
-}
-
-function renderNetwork() {
-  const wrap = document.getElementById('network');
-  wrap.innerHTML = '';
-  const width = Math.max(wrap.clientWidth, 720);
-  const height = Math.max(wrap.clientHeight, 560);
-  const ideas = filteredIdeas();
-  const activeIds = new Set(ideas.map(idea => idea.id));
-
-  const nodes = [
-    ...state.data.fields.map(item => ({ id: item.id, label: item.name, type: 'field', group: item.group })),
-    ...state.data.methods.map(item => ({ id: item.id, label: item.name, type: 'method', group: item.group }))
-  ];
-
-  const links = ideas.map(idea => ({
-    source: idea.field,
-    target: idea.method,
-    ideaId: idea.id,
-    title: idea.title,
-    feasibility: idea.feasibility,
-    selected: state.selectedIdea?.id === idea.id
-  }));
-
-  const svg = d3.select(wrap)
-    .append('svg')
-    .attr('viewBox', [0, 0, width, height])
-    .attr('width', '100%')
-    .attr('height', height);
-
-  const color = d => d.type === 'field' ? '#2563eb' : '#7c3aed';
-  const linkColor = d => d.feasibility >= 85 ? '#059669' : d.feasibility >= 78 ? '#d97706' : '#64748b';
-
-  const simulation = d3.forceSimulation(nodes)
-    .force('link', d3.forceLink(links).id(d => d.id).distance(160).strength(0.75))
-    .force('charge', d3.forceManyBody().strength(-520))
-    .force('center', d3.forceCenter(width / 2, height / 2))
-    .force('collision', d3.forceCollide().radius(58));
-
-  const link = svg.append('g')
-    .selectAll('line')
-    .data(links)
-    .join('line')
-    .attr('class', 'link-line')
-    .attr('stroke', linkColor)
-    .attr('stroke-width', d => d.selected ? 7 : Math.max(2, d.feasibility / 18))
-    .attr('stroke-opacity', d => d.selected ? 0.95 : 0.62)
-    .on('click', (event, d) => selectIdea(d.ideaId));
-
-  link.append('title').text(d => `${d.title}｜可行性 ${d.feasibility}`);
-
-  const node = svg.append('g')
-    .selectAll('g')
-    .data(nodes)
-    .join('g')
-    .call(d3.drag()
-      .on('start', (event, d) => {
-        if (!event.active) simulation.alphaTarget(0.3).restart();
-        d.fx = d.x;
-        d.fy = d.y;
-      })
-      .on('drag', (event, d) => {
-        d.fx = event.x;
-        d.fy = event.y;
-      })
-      .on('end', (event, d) => {
-        if (!event.active) simulation.alphaTarget(0);
-        d.fx = null;
-        d.fy = null;
-      }));
-
-  node.append('circle')
-    .attr('r', d => d.type === 'field' ? 34 : 28)
-    .attr('fill', color)
-    .attr('stroke', '#fff')
-    .attr('stroke-width', 3);
-
-  node.append('text')
-    .text(d => d.label.length > 10 ? d.label.slice(0, 10) + '…' : d.label)
-    .attr('text-anchor', 'middle')
-    .attr('dy', 4)
-    .attr('fill', '#fff')
-    .attr('font-size', 11)
-    .attr('font-weight', 700);
-
-  node.append('title').text(d => `${d.label}｜${d.group}`);
-
-  const label = svg.append('g')
-    .selectAll('text')
-    .data(links)
-    .join('text')
-    .text(d => d.feasibility)
-    .attr('fill', '#0f172a')
-    .attr('font-size', 11)
-    .attr('font-weight', 800)
-    .attr('pointer-events', 'none');
-
-  simulation.on('tick', () => {
-    link
-      .attr('x1', d => d.source.x)
-      .attr('y1', d => d.source.y)
-      .attr('x2', d => d.target.x)
-      .attr('y2', d => d.target.y);
-    node.attr('transform', d => `translate(${d.x},${d.y})`);
-    label
-      .attr('x', d => (d.source.x + d.target.x) / 2)
-      .attr('y', d => (d.source.y + d.target.y) / 2);
-  });
+  renderIdeaDetail();
+  renderIdeaCards();
+  if (scrollDetail && window.innerWidth < 1180) $('#network').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 function renderAll() {
   renderMetrics();
-  renderIdeas();
-  renderDetail();
-  renderReferences();
+  renderOverview();
   renderNetwork();
+  renderIdeaDetail();
+  renderIdeaCards();
+  renderBrainstorm();
+  renderReferences();
 }
 
-async function init() {
-  const res = await fetch(DATA_URL);
-  state.data = await res.json();
-  const savedIdea = localStorage.getItem(IDEA_KEY);
-  state.selectedIdea = state.data.ideas.find(idea => idea.id === savedIdea) || state.data.ideas[0];
-
-  document.querySelectorAll('.chip').forEach(btn => {
+function bindEvents() {
+  $('#nav-toggle').addEventListener('click', () => $('.main-nav').classList.toggle('open'));
+  $$('.main-nav a').forEach(link => {
+    link.addEventListener('click', () => $('.main-nav').classList.remove('open'));
+  });
+  $$('#filters .chip').forEach(btn => {
     btn.addEventListener('click', () => {
-      document.querySelectorAll('.chip').forEach(item => item.classList.remove('active'));
+      $$('#filters .chip').forEach(item => item.classList.remove('active'));
       btn.classList.add('active');
       state.filter = btn.dataset.filter;
       renderAll();
     });
   });
-
-  document.getElementById('search').addEventListener('input', event => {
+  $('#search').addEventListener('input', event => {
     state.search = event.target.value;
     renderAll();
   });
+  $('#show-unknown').addEventListener('click', () => {
+    state.refFilter = 'unknown';
+    renderReferences();
+  });
+  $('#show-all-refs').addEventListener('click', () => {
+    state.refFilter = 'all';
+    renderReferences();
+  });
 
+  const sections = ['overview', 'network', 'ideas', 'references', 'quality'];
+  window.addEventListener('scroll', () => {
+    const current = sections.findLast(id => {
+      const el = document.getElementById(id);
+      return el && el.getBoundingClientRect().top < 160;
+    }) || 'overview';
+    $$('.main-nav a').forEach(a => a.classList.toggle('active', a.getAttribute('href') === `#${current}`));
+  }, { passive: true });
+}
+
+async function init() {
+  const res = await fetch(DATA_URL);
+  state.data = await res.json();
+  const saved = localStorage.getItem(SELECT_KEY);
+  state.selectedIdea = state.data.ideas.find(idea => idea.id === saved) || state.data.ideas[0];
+  bindEvents();
   renderAll();
 }
 
 window.selectIdea = selectIdea;
-window.cycleRefStatus = cycleRefStatus;
+window.cycleRef = cycleRef;
 
 init().catch(error => {
-  document.body.innerHTML = `<main class="panel" style="margin:40px;"><h1>加载失败</h1><pre>${safeText(error.message)}</pre></main>`;
+  document.body.innerHTML = `<main style="padding:2rem"><h1>页面加载失败</h1><pre>${escapeHtml(error.message)}</pre></main>`;
 });

@@ -5,65 +5,150 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Jivon Research Navigator</title>
   <link rel="stylesheet" href="css/style.css">
-  <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <body>
-  <header class="hero">
-    <div>
-      <p class="eyebrow">Research Navigator</p>
-      <h1>ORCID × 疾病方向 × 科研套路</h1>
-      <p class="subtitle">用交互网络图展示课题可行性，每个 idea 都绑定可手动核实的 PubMed/DOI 参考文献。</p>
-    </div>
-    <div class="hero-card">
-      <div class="metric"><span id="metric-ideas">--</span><small>Idea</small></div>
-      <div class="metric"><span id="metric-refs">--</span><small>参考文献</small></div>
-      <div class="metric"><span id="metric-verified">--</span><small>已核实</small></div>
-    </div>
+  <header class="topbar">
+    <a class="brand" href="#overview">
+      <span class="brand-mark">JR</span>
+      <span>
+        <strong>Jivon Research Navigator</strong>
+        <small>ORCID × 疾病方向 × 科研套路</small>
+      </span>
+    </a>
+    <nav class="main-nav" aria-label="主导航">
+      <a href="#overview">总览</a>
+      <a href="#network">交互网络</a>
+      <a href="#ideas">Idea 库</a>
+      <a href="#references">文献核实</a>
+      <a href="#quality">数据质量</a>
+    </nav>
+    <button class="nav-toggle" id="nav-toggle" aria-label="展开导航">导航</button>
   </header>
 
-  <main class="layout">
-    <section class="panel network-panel">
-      <div class="panel-head">
-        <div>
-          <h2>交互分析网络图</h2>
-          <p>圆点代表领域或方法；连线代表一个可执行 idea；颜色越绿表示可行性越高。</p>
+  <main>
+    <section id="overview" class="hero section">
+      <div class="hero-copy">
+        <p class="eyebrow">综合科研工作台</p>
+        <h1>从个人论文画像出发，找到值得推进的疾病研究交叉点</h1>
+        <p class="lead">页面把 ORCID 学术画像、结核因果分析、GBD 疾病负担、医学热点和科研套路放到同一张图里。总览负责判断优先级，网络图负责探索关系，Idea 详情负责沉淀证据链。</p>
+        <div class="hero-actions">
+          <a class="btn primary" href="#network">查看交互网络</a>
+          <a class="btn" href="#references">开始核实文献</a>
         </div>
-        <div class="filters">
+      </div>
+      <aside class="hero-panel">
+        <div class="panel-title">当前状态</div>
+        <div class="metric-stack" id="metric-stack"></div>
+      </aside>
+    </section>
+
+    <section class="section overview-grid">
+      <article class="card wide">
+        <div class="section-kicker">一屏判断</div>
+        <h2>优先级不是按热闹程度排，而是按“证据、可行性、个人积累”排</h2>
+        <p>结核病因果与诊断应当留在主系统里，作为一个可展开的疾病节点。它和 pQTL-MR、多组学诊断、政策因果评估三条线都有连接，但优先级不同：pQTL-MR 更适合作为第一篇推进，政策因果需要先核实政策事件和国家数据，诊断多组学适合做第二梯队。</p>
+        <div class="priority-list" id="priority-list"></div>
+      </article>
+      <article class="card">
+        <div class="section-kicker">研究组合</div>
+        <h2>方向分布</h2>
+        <div id="field-summary" class="mini-list"></div>
+      </article>
+      <article class="card">
+        <div class="section-kicker">核实进度</div>
+        <h2>参考文献状态</h2>
+        <div class="donut-wrap">
+          <div class="donut" id="verify-donut">0%</div>
+          <p id="verify-copy"></p>
+        </div>
+      </article>
+    </section>
+
+    <section id="network" class="section split">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Interaction Map</p>
+          <h2>领域 × 方法套路网络图</h2>
+          <p>左侧是研究方向，右侧是方法套路。每条连线都是一个 idea，线越粗、越绿，可行性越高。点击连线或卡片会更新右侧详情。</p>
+        </div>
+        <div class="filters" id="filters">
           <button class="chip active" data-filter="all">全部</button>
           <button class="chip" data-filter="tb">结核相关</button>
           <button class="chip" data-filter="high">高可行性</button>
-          <button class="chip" data-filter="unverified">未核实</button>
+          <button class="chip" data-filter="unverified">待核实</button>
         </div>
       </div>
-      <div id="network"></div>
+      <div class="network-layout">
+        <article class="network-card">
+          <div id="network-canvas" class="network-canvas"></div>
+          <div class="legend">
+            <span><i class="dot blue"></i>领域节点</span>
+            <span><i class="dot purple"></i>方法节点</span>
+            <span><i class="line green"></i>高可行性</span>
+            <span><i class="line amber"></i>需补证据</span>
+          </div>
+        </article>
+        <aside class="detail-card" id="idea-detail"></aside>
+      </div>
     </section>
 
-    <aside class="panel detail-panel">
-      <h2>Idea 证据面板</h2>
-      <div id="idea-detail" class="empty">点击网络中的连线或下方卡片，查看研究问题、可行性和参考文献核实入口。</div>
-    </aside>
+    <section id="ideas" class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Idea Library</p>
+          <h2>可推进 Idea 库</h2>
+          <p>卡片只显示摘要和评分；点击后在详情面板查看研究设计、数据源、预期产出和参考文献。</p>
+        </div>
+        <input id="search" class="search" type="search" placeholder="搜索 TB、MR、GBD、ORCID、CKM...">
+      </div>
+      <div id="idea-list" class="idea-grid"></div>
+    </section>
+
+    <section class="section brainstorm">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Brainstorm Board</p>
+          <h2>从已有积累延伸出的研究切口</h2>
+          <p>这里不是替代文献核实，而是把可能的分支先摆出来，方便你决定哪些值得继续查。</p>
+        </div>
+      </div>
+      <div id="brainstorm-board" class="brainstorm-grid"></div>
+    </section>
+
+    <section id="references" class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Reference Verification</p>
+          <h2>参考文献核实区</h2>
+          <p>默认问号代表未核实。打开 PubMed 或 DOI 后，点击状态按钮可切换为已核实或已否决；状态只保存在当前浏览器。</p>
+        </div>
+        <div class="ref-tools">
+          <button class="btn" id="show-unknown">只看未核实</button>
+          <button class="btn" id="show-all-refs">全部文献</button>
+        </div>
+      </div>
+      <div id="reference-list" class="reference-list"></div>
+    </section>
+
+    <section id="quality" class="section quality-grid">
+      <article class="card">
+        <p class="eyebrow">Data Quality</p>
+        <h2>这版怎么避免“看起来很丰富但不可信”</h2>
+        <p>正式证据区不再把 `GEN...` 这类生成型 PMID 当作真实文献展示。没有 PMID 的文献会走 DOI 或 PubMed 标题检索，保留人工核实入口。页面不自动声称文献已验证，所有证据默认从问号开始。</p>
+      </article>
+      <article class="card">
+        <p class="eyebrow">Migration</p>
+        <h2>旧仓的角色</h2>
+        <p>旧仓已经变成迁移说明入口。新的综合仓承担 ORCID、疾病方向、科研套路、交互分析和文献核实功能；后续维护应集中在这里。</p>
+        <a class="btn" href="https://github.com/JivonKiang/JivonKiang.github.io/blob/main/README.md" target="_blank" rel="noopener">查看旧仓迁移说明</a>
+      </article>
+    </section>
   </main>
 
-  <section class="panel idea-section">
-    <div class="panel-head">
-      <div>
-        <h2>可推进 Idea</h2>
-        <p>每条 idea 都带参考文献。默认 `?` 为未核实，点开 PubMed/DOI 后可手动切换为 `✓` 或 `×`。</p>
-      </div>
-      <input id="search" type="search" placeholder="搜索 TB、MR、GBD、ORCID...">
-    </div>
-    <div id="idea-list" class="idea-grid"></div>
-  </section>
-
-  <section class="panel">
-    <h2>参考文献总库</h2>
-    <div id="reference-list" class="reference-list"></div>
-  </section>
-
-  <footer>
-    <span>迁移自旧综合仓：JivonKiang.github.io</span>
-    <span>·</span>
+  <footer class="footer">
+    <span>Jivon Research Navigator</span>
     <a href="https://github.com/JivonKiang/research-navigator-hub" target="_blank" rel="noopener">GitHub 仓库</a>
+    <a href="https://jivonkiang.github.io/research-navigator-hub/" target="_blank" rel="noopener">GitHub Pages</a>
   </footer>
 
   <script src="js/app.js"></script>

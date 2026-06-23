@@ -1,9 +1,10 @@
 {
   "meta": {
     "title": "Jivon Research Navigator",
-    "subtitle": "ORCID 学术画像 × 疾病方向 × 科研套路 × 可核实参考文献",
+    "subtitle": "ORCID 学术画像、疾病方向、科研套路与可核实参考文献的综合导航",
     "updated": "2026-06-23",
-    "migratedFrom": "JivonKiang/JivonKiang.github.io"
+    "migratedFrom": "JivonKiang/JivonKiang.github.io",
+    "positioning": "一个用于发现、筛选、核实和推进医学科研选题的交互式工作台。"
   },
   "fields": [
     {
@@ -262,6 +263,32 @@
         "tb-burden-gbd-who",
         "ukb-proteomics-nature",
         "immune-proteins-natimm"
+      ],
+      "stage": "优先推进",
+      "rationale": "TB 方向已有疾病负担和诊断文献基础，pQTL-MR 能把“相关标志物”推进到“遗传支持的因果候选”。适合形成一篇方法清晰、证据链较强的生信/流行病学交叉论文。",
+      "design": [
+        "从 TB 结局 GWAS 或感染相关表型中定义 outcome。",
+        "选择 UKB-PPP、deCODE 或炎症蛋白 pQTL 作为 exposure。",
+        "用两样本 MR、共定位和敏感性分析筛掉水平多效性。",
+        "把候选蛋白映射到药物靶点、免疫通路和诊断应用场景。"
+      ],
+      "dataSources": [
+        "TB GWAS / 感染表型",
+        "UKB-PPP",
+        "deCODE pQTL",
+        "PubMed 验证文献"
+      ],
+      "outputs": [
+        "候选蛋白清单",
+        "MR 主结果表",
+        "共定位证据",
+        "机制图",
+        "论文方法框架"
+      ],
+      "brainstorm": [
+        "TB 潜伏感染 vs 活动性 TB 分层",
+        "炎症蛋白与疫苗反应",
+        "候选蛋白是否可作为诊断 panel"
       ]
     },
     {
@@ -278,6 +305,31 @@
       "references": [
         "tb-burden-gbd-who",
         "tb-burden-gbd-who-method"
+      ],
+      "stage": "需要数据确认",
+      "rationale": "政策因果题的价值在于把 WHO/GBD 负担变化解释为可检验的公共卫生干预效果，但要求政策时间点、国家对照组和长期数据足够清楚。",
+      "design": [
+        "先锁定政策明确、执行时间清楚的国家或地区。",
+        "构造 WHO/GBD 年度结局和政策暴露变量。",
+        "用 DID 或合成控制法检验政策前后趋势差异。",
+        "用安慰剂年份、替代结局和国家分组做稳健性分析。"
+      ],
+      "dataSources": [
+        "WHO TB 数据",
+        "GBD 结果",
+        "World Bank 协变量",
+        "政策时间线"
+      ],
+      "outputs": [
+        "政策事件表",
+        "平行趋势图",
+        "DID 估计",
+        "国家异质性分析"
+      ],
+      "brainstorm": [
+        "DOTS 策略扩展",
+        "新诊断工具推广",
+        "COVID-19 对 TB 服务中断的影响"
       ]
     },
     {
@@ -295,6 +347,31 @@
         "blood-tb-diagnosis",
         "tb-vaccine-review",
         "kirc-multiomics-method"
+      ],
+      "stage": "可作为第二梯队",
+      "rationale": "TB 诊断方向适合把表达谱、多组学和临床变量组合起来，但需要避免只做模型堆叠。更好的切入点是可解释标志物组合和跨队列泛化。",
+      "design": [
+        "整理 TB 潜伏感染、活动性 TB 和健康对照表达谱。",
+        "用多队列交叉验证评估泛化能力。",
+        "把候选基因与免疫通路、蛋白证据和文献证据连接。",
+        "输出可解释诊断 panel，而不是只追求 AUC。"
+      ],
+      "dataSources": [
+        "GEO 表达谱",
+        "PubMed 文献",
+        "免疫通路数据库",
+        "可选蛋白组数据"
+      ],
+      "outputs": [
+        "诊断 panel",
+        "跨队列验证图",
+        "通路解释",
+        "候选标志物证据表"
+      ],
+      "brainstorm": [
+        "潜伏感染早筛",
+        "疫苗保护反应预测",
+        "TB 与其他呼吸感染鉴别"
       ]
     },
     {
@@ -312,6 +389,31 @@
         "digestive-gbd",
         "breast-gbd",
         "transplant-biblio-method"
+      ],
+      "stage": "快速产出",
+      "rationale": "GBD 与文献计量结合适合快速筛题：先找高负担、增长明显但论文拥挤度不高的病种，再把候选病种映射到可写方法。",
+      "design": [
+        "按疾病负担、增长趋势、地区差异和文献拥挤度建立评分。",
+        "筛出蓝海病种和可复用方法套路。",
+        "用 PubMed 文献量、近年增长和高分期刊案例验证。",
+        "输出候选课题地图和优先级表。"
+      ],
+      "dataSources": [
+        "GBD 2023",
+        "PubMed",
+        "WHO / World Bank",
+        "已有热点仓数据"
+      ],
+      "outputs": [
+        "蓝海病种榜单",
+        "方法匹配矩阵",
+        "候选题库",
+        "可视化报告"
+      ],
+      "brainstorm": [
+        "非恶性消化疾病",
+        "罕见但增长快的代谢病",
+        "地区差异明显的感染病"
       ]
     },
     {
@@ -329,6 +431,31 @@
         "orcid-profile-record",
         "transplant-biblio",
         "mg-biblio"
+      ],
+      "stage": "导航基础层",
+      "rationale": "ORCID 不是单独展示论文，而是给选题系统提供“个人能力边界”。它用来回答哪些热点方向和既有论文基础最接近。",
+      "design": [
+        "把 ORCID 论文按疾病、方法、数据源和期刊类型分类。",
+        "把个人论文标签与 PubMed 热点标签做相似度匹配。",
+        "优先推荐既有积累强、热点增长高、数据可得性好的交叉点。",
+        "把每个交叉点绑定可核实文献，而不是生成型描述。"
+      ],
+      "dataSources": [
+        "ORCID 记录",
+        "PubMed 热点",
+        "个人 GitHub 项目",
+        "手动核实文献"
+      ],
+      "outputs": [
+        "个人研究画像",
+        "热点匹配榜",
+        "能力-机会矩阵",
+        "下一批 idea"
+      ],
+      "brainstorm": [
+        "从 TB 迁移到呼吸感染",
+        "从 GBD 迁移到非 GBD 公共数据",
+        "从多组学迁移到可成药靶点"
       ]
     },
     {
@@ -345,6 +472,31 @@
       "references": [
         "ukb-disease-prediction",
         "brain-aging-targets"
+      ],
+      "stage": "中期推进",
+      "rationale": "CKM 方向有明确临床意义和公共队列基础，适合做风险预测、分期和机制解释，但需要先定义清楚 CKM 标准与结局。",
+      "design": [
+        "统一 CKM 分期定义、暴露变量和结局变量。",
+        "用 NHANES 或 CHARLS 做基线模型，用 UKB 做拓展验证。",
+        "比较传统统计模型与机器学习模型。",
+        "重点输出可解释风险因子，而不是黑箱预测。"
+      ],
+      "dataSources": [
+        "NHANES",
+        "CHARLS",
+        "UK Biobank",
+        "CKM 指南或共识"
+      ],
+      "outputs": [
+        "变量字典",
+        "风险模型",
+        "SHAP 解释图",
+        "分层人群建议"
+      ],
+      "brainstorm": [
+        "CKM 分期转归",
+        "肾代谢指标与 CVD 结局",
+        "老龄人群异质性"
       ]
     },
     {
@@ -362,6 +514,31 @@
         "copd-drug-mr",
         "ukb-proteomics-nature",
         "immune-proteins-natimm"
+      ],
+      "stage": "方法储备",
+      "rationale": "呼吸系统疾病靶点筛选可以复用 MR 与药物重定位框架，和 TB、COPD、呼吸道感染形成一组连续课题。",
+      "design": [
+        "选择 COPD、TB 或呼吸感染作为结局。",
+        "用蛋白、表达或药物靶点数据做 exposure。",
+        "结合 MR、共定位、药物数据库和文献核实。",
+        "筛出可成药、可解释、可验证的候选靶点。"
+      ],
+      "dataSources": [
+        "GWAS Catalog",
+        "Open Targets",
+        "UKB-PPP",
+        "PubMed"
+      ],
+      "outputs": [
+        "候选靶点表",
+        "药物重定位表",
+        "机制路径图",
+        "验证优先级"
+      ],
+      "brainstorm": [
+        "COPD 炎症蛋白",
+        "TB 宿主靶点",
+        "呼吸感染后长期结局"
       ]
     },
     {
@@ -378,6 +555,31 @@
       "references": [
         "kirc-multiomics",
         "kirc-multiomics-method"
+      ],
+      "stage": "技术平台层",
+      "rationale": "虚拟敲除/过表达适合沉淀为可复用技术模块，为 BRCA、KIRC、TB 或其他病种提供统一的机制挖掘流程。",
+      "design": [
+        "定义基因、疾病和数据集的输入标准。",
+        "构建表达扰动、通路变化和免疫微环境分析流程。",
+        "用公开文献和可选实验数据验证关键发现。",
+        "把流程封装为可复用模板。"
+      ],
+      "dataSources": [
+        "TCGA",
+        "GEO",
+        "免疫浸润数据库",
+        "PubMed"
+      ],
+      "outputs": [
+        "可复用代码模板",
+        "机制网络图",
+        "候选基因优先级",
+        "论文图表框架"
+      ],
+      "brainstorm": [
+        "CXCL6 迁移到其他癌种",
+        "TB 宿主基因扰动",
+        "免疫通路虚拟验证"
       ]
     }
   ],
