@@ -1,0 +1,828 @@
+{
+  "meta": {
+    "title": "Jivon Research Navigator",
+    "subtitle": "ORCID 学术画像 × 疾病方向 × 科研套路 × 可核实参考文献",
+    "updated": "2026-06-23",
+    "migratedFrom": "JivonKiang/JivonKiang.github.io"
+  },
+  "fields": [
+    {
+      "id": "tb",
+      "name": "结核病因果与诊断",
+      "group": "疾病方向",
+      "summary": "把 tuberculosis-causal-inference 作为交互分析的一部分，用于承载 TB 疾病负担、诊断、疫苗、因果推断与风险因素研究。",
+      "references": [
+        {
+          "id": "tb-burden-gbd-who",
+          "title": "Global, regional, and national burden of tuberculosis, 1990-2050: a systematic comparative analysis based on retrospective cross-sectional of GBD 2021 and WHO surveillance systems.",
+          "journal": "International Journal of Surgery",
+          "year": "2025",
+          "doi": "10.1097/js9.0000000000003412",
+          "pmid": "40990501",
+          "note": "TB 负担与 WHO/GBD 对照的核心背景。"
+        },
+        {
+          "id": "tb-vaccine-review",
+          "title": "A Summary on Tuberculosis Vaccine Development-Where to Go?",
+          "journal": "Journal of Personalized Medicine",
+          "year": "2023",
+          "doi": "10.3390/jpm13030408",
+          "pmid": "36983589",
+          "note": "TB 疫苗方向背景。"
+        }
+      ]
+    },
+    {
+      "id": "gbd",
+      "name": "GBD 疾病负担",
+      "group": "疾病方向",
+      "summary": "疾病负担、趋势、预测和 WHO/GBD 差异分析，是综合仓的主线之一。",
+      "references": [
+        {
+          "id": "digestive-gbd",
+          "title": "Global, regional, and national burden of nonmalignant digestive diseases, 1990-2023: a systematic analysis from the GBD study 2023.",
+          "journal": "International Journal of Surgery",
+          "year": "2026",
+          "doi": "10.1097/js9.0000000000004481",
+          "pmid": "41677318",
+          "note": "GBD 2023 疾病负担文章范式。"
+        },
+        {
+          "id": "breast-gbd",
+          "title": "Global, regional, and national burden of breast cancer among females, 1990–2023, with forecasts to 2050: a systematic analysis for the Global Burden of Disease Study 2023",
+          "journal": "Lancet Oncology",
+          "year": "2026",
+          "doi": "10.1016/S1470-2045(25)00730-2",
+          "pmid": "",
+          "note": "GBD 趋势和预测范式。"
+        }
+      ]
+    },
+    {
+      "id": "bibliometrics",
+      "name": "文献计量与知识图谱",
+      "group": "方法方向",
+      "summary": "承接 medical-bibliometrics-hotspot，用于发现疾病热点、方法热点和低竞争研究切口。",
+      "references": [
+        {
+          "id": "transplant-biblio",
+          "title": "Current Trends and Future Directions of Malignancy After kidney Transplantation: A 1970-2022 Bibliometric Analysis.",
+          "journal": "Annals of Transplantation",
+          "year": "2024",
+          "doi": "10.12659/aot.942074",
+          "pmid": "38163947",
+          "note": "医学文献计量学实证范式。"
+        },
+        {
+          "id": "mg-biblio",
+          "title": "Knowledge mapping of global trends for myasthenia gravis development: A bibliometrics analysis.",
+          "journal": "Frontiers in Immunology",
+          "year": "2023",
+          "doi": "10.3389/fimmu.2023.1132201",
+          "pmid": "36936960",
+          "note": "知识图谱/热点趋势分析范式。"
+        }
+      ]
+    },
+    {
+      "id": "multiomics",
+      "name": "多组学与生信",
+      "group": "方法方向",
+      "summary": "面向虚拟敲除、表达谱、蛋白组、代谢组和多组学整合。",
+      "references": [
+        {
+          "id": "kirc-multiomics",
+          "title": "Multi-omics analysis of kidney renal cell carcinoma in silico with preliminary in vivo validation",
+          "journal": "Frontiers in Immunology",
+          "year": "2026",
+          "doi": "10.3389/fimmu.2026.1732965",
+          "pmid": "",
+          "note": "多组学 + in silico + 初步验证范式。"
+        },
+        {
+          "id": "blood-tb-diagnosis",
+          "title": "Genome-wide expression in human whole blood for diagnosis of latent tuberculosis infection: a multicohort research",
+          "journal": "Frontiers in Microbiology",
+          "year": "2025",
+          "doi": "10.3389/fmicb.2025.1584360",
+          "pmid": "",
+          "note": "TB 表达谱诊断方向。"
+        }
+      ]
+    },
+    {
+      "id": "clinical_ai",
+      "name": "临床 AI 与风险预测",
+      "group": "应用方向",
+      "summary": "临床表型、风险评分、智能诊断和模型解释。",
+      "references": [
+        {
+          "id": "copd-drug-mr",
+          "title": "Mendelian randomization analysis identifies druggable genes and drugs repurposing for chronic obstructive pulmonary disease.",
+          "journal": "Frontiers in Cellular and Infection Microbiology",
+          "year": "2024",
+          "doi": "",
+          "pmid": "38660492",
+          "note": "MR + 可成药靶点 + 呼吸疾病范式。"
+        },
+        {
+          "id": "brain-aging-targets",
+          "title": "Genetically supported targets and drug repurposing for brain aging: A systematic study in the UK Biobank.",
+          "journal": "Science Advances",
+          "year": "2025",
+          "doi": "",
+          "pmid": "40073132",
+          "note": "遗传支持靶点与药物重定位范式。"
+        }
+      ]
+    },
+    {
+      "id": "orcid_profile",
+      "name": "ORCID 学术画像",
+      "group": "个人画像",
+      "summary": "把 ORCID 论文、研究领域和可迁移方法整理成个人科研导航入口。",
+      "references": [
+        {
+          "id": "orcid-profile-record",
+          "title": "Fan Jiang ORCID record and publication metadata",
+          "journal": "ORCID / publication metadata",
+          "year": "2026",
+          "doi": "",
+          "pmid": "",
+          "url": "https://orcid.org/0000-0002-9257-206X",
+          "note": "个人学术画像来源，需要人工核对论文归属。"
+        }
+      ]
+    }
+  ],
+  "methods": [
+    {
+      "id": "mr",
+      "name": "孟德尔随机化 / pQTL MR",
+      "group": "因果推断",
+      "references": [
+        {
+          "id": "ukb-proteomics-nature",
+          "title": "Plasma proteomic associations with genetics and health in the UK Biobank.",
+          "journal": "Nature",
+          "year": "2023",
+          "doi": "",
+          "pmid": "37794186",
+          "note": "pQTL/蛋白组 MR 数据基础。"
+        },
+        {
+          "id": "immune-proteins-natimm",
+          "title": "Genetics of circulating inflammatory proteins identifies drivers of immune-mediated disease risk and therapeutic targets.",
+          "journal": "Nature Immunology",
+          "year": "2023",
+          "doi": "",
+          "pmid": "37563310",
+          "note": "炎症蛋白与免疫疾病靶点。"
+        }
+      ]
+    },
+    {
+      "id": "did_psm",
+      "name": "DID / PSM / 准实验",
+      "group": "因果推断",
+      "references": [
+        {
+          "id": "tb-burden-gbd-who-method",
+          "title": "Global, regional, and national burden of tuberculosis, 1990-2050: a systematic comparative analysis based on retrospective cross-sectional of GBD 2021 and WHO surveillance systems.",
+          "journal": "International Journal of Surgery",
+          "year": "2025",
+          "doi": "10.1097/js9.0000000000003412",
+          "pmid": "40990501",
+          "note": "TB 负担研究可作为后续政策因果分析的结果基础。"
+        }
+      ]
+    },
+    {
+      "id": "bibliometric_mapping",
+      "name": "文献计量 / 知识图谱",
+      "group": "热点挖掘",
+      "references": [
+        {
+          "id": "transplant-biblio-method",
+          "title": "Current Trends and Future Directions of Malignancy After kidney Transplantation: A 1970-2022 Bibliometric Analysis.",
+          "journal": "Annals of Transplantation",
+          "year": "2024",
+          "doi": "10.12659/aot.942074",
+          "pmid": "38163947",
+          "note": "文献计量分析的可复用模板。"
+        }
+      ]
+    },
+    {
+      "id": "multiomics_pipeline",
+      "name": "多组学整合 / 虚拟敲除",
+      "group": "生信挖掘",
+      "references": [
+        {
+          "id": "kirc-multiomics-method",
+          "title": "Multi-omics analysis of kidney renal cell carcinoma in silico with preliminary in vivo validation",
+          "journal": "Frontiers in Immunology",
+          "year": "2026",
+          "doi": "10.3389/fimmu.2026.1732965",
+          "pmid": "",
+          "note": "多组学 in silico 分析范式。"
+        }
+      ]
+    },
+    {
+      "id": "nhanes_ukb",
+      "name": "NHANES / UKB / CHARLS 队列",
+      "group": "公共数据库",
+      "references": [
+        {
+          "id": "ukb-disease-prediction",
+          "title": "Disease prediction with multi-omics and biomarkers empowers case-control genetic discoveries in the UK Biobank.",
+          "journal": "Nature Genetics",
+          "year": "2024",
+          "doi": "",
+          "pmid": "39261665",
+          "note": "UKB 多组学与疾病预测范式。"
+        }
+      ]
+    }
+  ],
+  "ideas": [
+    {
+      "id": "tb-pqtl-mr",
+      "title": "TB 生物标志物的 pQTL-MR 因果验证",
+      "question": "循环蛋白或炎症蛋白是否与 TB 易感性、潜伏感染或活动性 TB 存在因果关系？",
+      "field": "tb",
+      "method": "mr",
+      "feasibility": 88,
+      "novelty": 84,
+      "evidence": 82,
+      "difficulty": 3,
+      "status": "unverified",
+      "references": [
+        "tb-burden-gbd-who",
+        "ukb-proteomics-nature",
+        "immune-proteins-natimm"
+      ]
+    },
+    {
+      "id": "tb-policy-did",
+      "title": "公共卫生政策对 TB 负担变化的因果效应",
+      "question": "在 WHO/GBD 负担差异明显的国家中，政策变化是否能解释 TB 发病率或死亡率下降？",
+      "field": "tb",
+      "method": "did_psm",
+      "feasibility": 76,
+      "novelty": 78,
+      "evidence": 72,
+      "difficulty": 4,
+      "status": "unverified",
+      "references": [
+        "tb-burden-gbd-who",
+        "tb-burden-gbd-who-method"
+      ]
+    },
+    {
+      "id": "tb-diagnosis-multiomics",
+      "title": "TB 潜伏感染诊断的多组学标志物组合",
+      "question": "表达谱、蛋白组和临床特征能否组合成可解释的 TB 诊断模型？",
+      "field": "tb",
+      "method": "multiomics_pipeline",
+      "feasibility": 81,
+      "novelty": 80,
+      "evidence": 75,
+      "difficulty": 4,
+      "status": "unverified",
+      "references": [
+        "blood-tb-diagnosis",
+        "tb-vaccine-review",
+        "kirc-multiomics-method"
+      ]
+    },
+    {
+      "id": "gbd-blue-ocean-biblio",
+      "title": "GBD 疾病负担研究的蓝海病种筛选",
+      "question": "哪些疾病同时具备高负担、高增长、低文献拥挤度，适合作为新课题？",
+      "field": "gbd",
+      "method": "bibliometric_mapping",
+      "feasibility": 92,
+      "novelty": 74,
+      "evidence": 85,
+      "difficulty": 2,
+      "status": "unverified",
+      "references": [
+        "digestive-gbd",
+        "breast-gbd",
+        "transplant-biblio-method"
+      ]
+    },
+    {
+      "id": "orcid-hotspot-match",
+      "title": "ORCID 论文画像 × 医学热点的课题匹配",
+      "question": "个人既有论文方向与 PubMed 热点之间，哪些交叉点最适合继续推进？",
+      "field": "orcid_profile",
+      "method": "bibliometric_mapping",
+      "feasibility": 86,
+      "novelty": 70,
+      "evidence": 68,
+      "difficulty": 2,
+      "status": "unverified",
+      "references": [
+        "orcid-profile-record",
+        "transplant-biblio",
+        "mg-biblio"
+      ]
+    },
+    {
+      "id": "ckm-ukb-ai",
+      "title": "CKM 综合征的公共队列风险预测",
+      "question": "NHANES、CHARLS 或 UKB 是否能构建 CKM 分期、结局和风险因素的可解释模型？",
+      "field": "clinical_ai",
+      "method": "nhanes_ukb",
+      "feasibility": 84,
+      "novelty": 73,
+      "evidence": 77,
+      "difficulty": 3,
+      "status": "unverified",
+      "references": [
+        "ukb-disease-prediction",
+        "brain-aging-targets"
+      ]
+    },
+    {
+      "id": "resp-drug-target",
+      "title": "呼吸系统疾病可成药靶点筛选",
+      "question": "MR 与药物重定位能否为 COPD、TB 或呼吸道感染提供可验证靶点？",
+      "field": "clinical_ai",
+      "method": "mr",
+      "feasibility": 80,
+      "novelty": 81,
+      "evidence": 79,
+      "difficulty": 4,
+      "status": "unverified",
+      "references": [
+        "copd-drug-mr",
+        "ukb-proteomics-nature",
+        "immune-proteins-natimm"
+      ]
+    },
+    {
+      "id": "multiomics-virtual-ko",
+      "title": "疾病关键基因的虚拟敲除/过表达验证",
+      "question": "针对 BRCA、KIRC 或 TB 相关基因，能否形成可复用的 in silico KO/OE 流程？",
+      "field": "multiomics",
+      "method": "multiomics_pipeline",
+      "feasibility": 78,
+      "novelty": 82,
+      "evidence": 70,
+      "difficulty": 4,
+      "status": "unverified",
+      "references": [
+        "kirc-multiomics",
+        "kirc-multiomics-method"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "id": "tb-burden-gbd-who",
+      "title": "Global, regional, and national burden of tuberculosis, 1990-2050: a systematic comparative analysis based on retrospective cross-sectional of GBD 2021 and WHO surveillance systems.",
+      "journal": "International Journal of Surgery",
+      "year": "2025",
+      "doi": "10.1097/js9.0000000000003412",
+      "pmid": "40990501",
+      "note": "TB 负担与 WHO/GBD 对照的核心背景。"
+    },
+    {
+      "id": "tb-vaccine-review",
+      "title": "A Summary on Tuberculosis Vaccine Development-Where to Go?",
+      "journal": "Journal of Personalized Medicine",
+      "year": "2023",
+      "doi": "10.3390/jpm13030408",
+      "pmid": "36983589",
+      "note": "TB 疫苗方向背景。"
+    },
+    {
+      "id": "digestive-gbd",
+      "title": "Global, regional, and national burden of nonmalignant digestive diseases, 1990-2023: a systematic analysis from the GBD study 2023.",
+      "journal": "International Journal of Surgery",
+      "year": "2026",
+      "doi": "10.1097/js9.0000000000004481",
+      "pmid": "41677318",
+      "note": "GBD 2023 疾病负担文章范式。"
+    },
+    {
+      "id": "breast-gbd",
+      "title": "Global, regional, and national burden of breast cancer among females, 1990–2023, with forecasts to 2050: a systematic analysis for the Global Burden of Disease Study 2023",
+      "journal": "Lancet Oncology",
+      "year": "2026",
+      "doi": "10.1016/S1470-2045(25)00730-2",
+      "pmid": "",
+      "note": "GBD 趋势和预测范式。"
+    },
+    {
+      "id": "transplant-biblio",
+      "title": "Current Trends and Future Directions of Malignancy After kidney Transplantation: A 1970-2022 Bibliometric Analysis.",
+      "journal": "Annals of Transplantation",
+      "year": "2024",
+      "doi": "10.12659/aot.942074",
+      "pmid": "38163947",
+      "note": "医学文献计量学实证范式。"
+    },
+    {
+      "id": "mg-biblio",
+      "title": "Knowledge mapping of global trends for myasthenia gravis development: A bibliometrics analysis.",
+      "journal": "Frontiers in Immunology",
+      "year": "2023",
+      "doi": "10.3389/fimmu.2023.1132201",
+      "pmid": "36936960",
+      "note": "知识图谱/热点趋势分析范式。"
+    },
+    {
+      "id": "kirc-multiomics",
+      "title": "Multi-omics analysis of kidney renal cell carcinoma in silico with preliminary in vivo validation",
+      "journal": "Frontiers in Immunology",
+      "year": "2026",
+      "doi": "10.3389/fimmu.2026.1732965",
+      "pmid": "",
+      "note": "多组学 + in silico + 初步验证范式。"
+    },
+    {
+      "id": "blood-tb-diagnosis",
+      "title": "Genome-wide expression in human whole blood for diagnosis of latent tuberculosis infection: a multicohort research",
+      "journal": "Frontiers in Microbiology",
+      "year": "2025",
+      "doi": "10.3389/fmicb.2025.1584360",
+      "pmid": "",
+      "note": "TB 表达谱诊断方向。"
+    },
+    {
+      "id": "copd-drug-mr",
+      "title": "Mendelian randomization analysis identifies druggable genes and drugs repurposing for chronic obstructive pulmonary disease.",
+      "journal": "Frontiers in Cellular and Infection Microbiology",
+      "year": "2024",
+      "doi": "",
+      "pmid": "38660492",
+      "note": "MR + 可成药靶点 + 呼吸疾病范式。"
+    },
+    {
+      "id": "brain-aging-targets",
+      "title": "Genetically supported targets and drug repurposing for brain aging: A systematic study in the UK Biobank.",
+      "journal": "Science Advances",
+      "year": "2025",
+      "doi": "",
+      "pmid": "40073132",
+      "note": "遗传支持靶点与药物重定位范式。"
+    },
+    {
+      "id": "orcid-profile-record",
+      "title": "Fan Jiang ORCID record and publication metadata",
+      "journal": "ORCID / publication metadata",
+      "year": "2026",
+      "doi": "",
+      "pmid": "",
+      "url": "https://orcid.org/0000-0002-9257-206X",
+      "note": "个人学术画像来源，需要人工核对论文归属。"
+    },
+    {
+      "id": "ukb-proteomics-nature",
+      "title": "Plasma proteomic associations with genetics and health in the UK Biobank.",
+      "journal": "Nature",
+      "year": "2023",
+      "doi": "",
+      "pmid": "37794186",
+      "note": "pQTL/蛋白组 MR 数据基础。"
+    },
+    {
+      "id": "immune-proteins-natimm",
+      "title": "Genetics of circulating inflammatory proteins identifies drivers of immune-mediated disease risk and therapeutic targets.",
+      "journal": "Nature Immunology",
+      "year": "2023",
+      "doi": "",
+      "pmid": "37563310",
+      "note": "炎症蛋白与免疫疾病靶点。"
+    },
+    {
+      "id": "tb-burden-gbd-who-method",
+      "title": "Global, regional, and national burden of tuberculosis, 1990-2050: a systematic comparative analysis based on retrospective cross-sectional of GBD 2021 and WHO surveillance systems.",
+      "journal": "International Journal of Surgery",
+      "year": "2025",
+      "doi": "10.1097/js9.0000000000003412",
+      "pmid": "40990501",
+      "note": "TB 负担研究可作为后续政策因果分析的结果基础。"
+    },
+    {
+      "id": "transplant-biblio-method",
+      "title": "Current Trends and Future Directions of Malignancy After kidney Transplantation: A 1970-2022 Bibliometric Analysis.",
+      "journal": "Annals of Transplantation",
+      "year": "2024",
+      "doi": "10.12659/aot.942074",
+      "pmid": "38163947",
+      "note": "文献计量分析的可复用模板。"
+    },
+    {
+      "id": "kirc-multiomics-method",
+      "title": "Multi-omics analysis of kidney renal cell carcinoma in silico with preliminary in vivo validation",
+      "journal": "Frontiers in Immunology",
+      "year": "2026",
+      "doi": "10.3389/fimmu.2026.1732965",
+      "pmid": "",
+      "note": "多组学 in silico 分析范式。"
+    },
+    {
+      "id": "ukb-disease-prediction",
+      "title": "Disease prediction with multi-omics and biomarkers empowers case-control genetic discoveries in the UK Biobank.",
+      "journal": "Nature Genetics",
+      "year": "2024",
+      "doi": "",
+      "pmid": "39261665",
+      "note": "UKB 多组学与疾病预测范式。"
+    }
+  ],
+  "papers": [
+    {
+      "title": "Global, regional, and national burden of nonmalignant digestive diseases, 1990-2023: a systematic analysis from the GBD study 2023.",
+      "journal": "International journal of surgery (London, England)",
+      "year": "2026",
+      "doi": "10.1097/js9.0000000000004481",
+      "pmid": "41677318",
+      "category": "GBD Global Burden of Disease"
+    },
+    {
+      "title": "Global, regional, and national burden of breast cancer among females, 1990–2023, with forecasts to 2050: a systematic analysis for the Global Burden of Disease Study 2023",
+      "journal": "Lancet Oncology",
+      "year": "2026",
+      "doi": "10.1016/S1470-2045(25)00730-2",
+      "pmid": "",
+      "category": "GBD Global Burden of Disease"
+    },
+    {
+      "title": "Global, regional, and national burden of tuberculosis, 1990-2050: a systematic comparative analysis based on retrospective cross-sectional of GBD 2021 and WHO surveillance systems.",
+      "journal": "International journal of surgery (London, England)",
+      "year": "2025",
+      "doi": "10.1097/js9.0000000000003412",
+      "pmid": "40990501",
+      "category": "GBD Global Burden of Disease"
+    },
+    {
+      "title": "Global burden of disease for musculoskeletal disorders in all age groups, from 2024 to 2050, and a bibliometric-based survey of the status of research in geriatrics, geriatric orthopedics, and geriatric orthopedic diseases",
+      "journal": "Journal of Orthopaedic Surgery and Research",
+      "year": "2025",
+      "doi": "10.1186/s13018-025-05580-y",
+      "pmid": "",
+      "category": "GBD Global Burden of Disease"
+    },
+    {
+      "title": "Genome-wide expression in human whole blood for diagnosis of latent tuberculosis infection: a multicohort research",
+      "journal": "Frontiers in Microbiology",
+      "year": "2025",
+      "doi": "10.3389/fmicb.2025.1584360",
+      "pmid": "",
+      "category": "Tuberculosis Vaccine & Diagnostics"
+    },
+    {
+      "title": "Development and Evaluation of a Promising Biomarker for Diagnosis of Latent and Active Tuberculosis Infection",
+      "journal": "N/A",
+      "year": "2024",
+      "doi": "10.1097/ID9.0000000000000104",
+      "pmid": "",
+      "category": "Tuberculosis Vaccine & Diagnostics"
+    },
+    {
+      "title": "Construction of novel multi-epitope-based diagnostic biomarker HP16118P and its application in the differential diagnosis of Mycobacterium tuberculosis latent infection",
+      "journal": "Molecular Biomedicine",
+      "year": "2024",
+      "doi": "10.1186/s43556-024-00177-z",
+      "pmid": "",
+      "category": "Tuberculosis Vaccine & Diagnostics"
+    },
+    {
+      "title": "A comprehensive approach to developing a multi-epitope vaccine against Mycobacterium tuberculosis: from in silico design to in vitro immunization evaluation",
+      "journal": "Frontiers in Immunology",
+      "year": "2023",
+      "doi": "10.3389/fimmu.2023.1280299",
+      "pmid": "",
+      "category": "Tuberculosis Vaccine & Diagnostics"
+    },
+    {
+      "title": "A Summary on Tuberculosis Vaccine Development-Where to Go?",
+      "journal": "Journal of personalized medicine",
+      "year": "2023",
+      "doi": "10.3390/jpm13030408",
+      "pmid": "36983589",
+      "category": "Tuberculosis Vaccine & Diagnostics"
+    },
+    {
+      "title": "Bioinformatics analysis and consistency verification of a novel tuberculosis vaccine candidate HP13138PB.",
+      "journal": "Frontiers in immunology",
+      "year": "2023",
+      "doi": "10.3389/fimmu.2023.1102578",
+      "pmid": "36825009",
+      "category": "Tuberculosis Vaccine & Diagnostics"
+    },
+    {
+      "title": "Design and development of a multi‐epitope vaccine for the prevention of latent tuberculosis infection",
+      "journal": "Medicine Advances",
+      "year": "2023",
+      "doi": "10.1002/MED4.40",
+      "pmid": "",
+      "category": "Tuberculosis Vaccine & Diagnostics"
+    },
+    {
+      "title": "PP19128R, a Multiepitope Vaccine Designed to Prevent Latent Tuberculosis Infection, Induced Immune Responses In Silico and In Vitro Assays",
+      "journal": "Vaccines",
+      "year": "2023",
+      "doi": "10.3390/vaccines11040856",
+      "pmid": "",
+      "category": "Tuberculosis Vaccine & Diagnostics"
+    },
+    {
+      "title": "Current Trends and Future Directions of Malignancy After kidney Transplantation: A 1970-2022 Bibliometric Analysis.",
+      "journal": "Annals of transplantation",
+      "year": "2024",
+      "doi": "10.12659/aot.942074",
+      "pmid": "38163947",
+      "category": "Bibliometrics & Knowledge Mapping"
+    },
+    {
+      "title": "Knowledge Mapping of Aspergillus‐Related Research in Respiratory Medicine: A Bibliometric Analysis Based on English‐Language Articles Spanning 1975 to 2022",
+      "journal": "Canadian Respiratory Journal",
+      "year": "2024",
+      "doi": "10.1155/carj/6199860",
+      "pmid": "",
+      "category": "Bibliometrics & Knowledge Mapping"
+    },
+    {
+      "title": "Knowledge mapping of disease-modifying therapy (DMT) in multiple sclerosis (MS): A bibliometrics analysis",
+      "journal": "Heliyon",
+      "year": "2024",
+      "doi": "10.1016/j.heliyon.2024.e31744",
+      "pmid": "",
+      "category": "Bibliometrics & Knowledge Mapping"
+    },
+    {
+      "title": "The future landscape of immunology in COPD: A bibliometric analysis",
+      "journal": "Respiratory Medicine",
+      "year": "2023",
+      "doi": "10.1016/j.rmed.2023.107462",
+      "pmid": "",
+      "category": "Bibliometrics & Knowledge Mapping"
+    },
+    {
+      "title": "Knowledge mapping of global trends for myasthenia gravis development: A bibliometrics analysis.",
+      "journal": "Frontiers in immunology",
+      "year": "2023",
+      "doi": "10.3389/fimmu.2023.1132201",
+      "pmid": "36936960",
+      "category": "Bibliometrics & Knowledge Mapping"
+    },
+    {
+      "title": "Multi-omics analysis of kidney renal cell carcinoma in silico with preliminary in vivo validation",
+      "journal": "Frontiers in Immunology",
+      "year": "2026",
+      "doi": "10.3389/fimmu.2026.1732965",
+      "pmid": "",
+      "category": "Multi-omics & Bioinformatics"
+    },
+    {
+      "title": "Gold Nanoparticles Carrying Mannose-Binding Lectin and Inflammatory Cytokine Antibodies Improve Sepsis Survival by Modulating Immunity and Reducing Pathogens",
+      "journal": "ACS Applied Materials and Interfaces",
+      "year": "2025",
+      "doi": "10.1021/acsami.4c21055",
+      "pmid": "",
+      "category": "Nanomedicine & Biomaterials"
+    },
+    {
+      "title": "Developing a multiepitope vaccine for the prevention of SARS-CoV-2 and monkeypox virus co-infection: A reverse vaccinology analysis.",
+      "journal": "International immunopharmacology",
+      "year": "2023",
+      "doi": "10.1016/j.intimp.2023.109728",
+      "pmid": "36652758",
+      "category": "Infectious Disease Vaccines (non-TB)"
+    },
+    {
+      "title": "Changes in physiological parameters and thermal comfort when wearing protective clothing in long-range aeromedical evacuation: a prospective, non-blinded, two-stage crossover self-controlled study",
+      "journal": "Journal of Physiological Anthropology",
+      "year": "2025",
+      "doi": "10.1186/s40101-025-00411-9",
+      "pmid": "",
+      "category": "Physiological & Environmental Health"
+    },
+    {
+      "title": "Ectopic Wnt6 expression induces twin—spot markings in the epidermis of the silkworm Bombyx mori – Potential molecular target to discover evolutionary mechanisms of adaptive body coloration in insects",
+      "journal": "The FEBS Journal",
+      "year": "2026",
+      "doi": "10.1111/febs.70491",
+      "pmid": "",
+      "category": "Genetics & Molecular Biology"
+    }
+  ],
+  "databases": [
+    {
+      "name": "NHANES",
+      "full_name": "National Health and Nutrition Examination Survey",
+      "url": "https://www.cdc.gov/nchs/nhanes/",
+      "category": "深海蓝海",
+      "score": 78,
+      "description": "美国国家健康与营养调查，涵盖问卷+体检+实验室数据，适合营养流行病学与慢性病研究",
+      "why": "您的GBD疾病负担经验可直接迁移至NHANES微观数据；NHANES发文量稳定增长但远未饱和",
+      "if_range": "JAMA Network Open (IF 13.8) → AJCN (IF 7.1)",
+      "tier": "Deep Blue",
+      "desc": "美国国家健康与营养调查，涵盖问卷+体检+实验室数据，适合营养流行病学与慢性病研究"
+    },
+    {
+      "name": "UK Biobank",
+      "full_name": "UK Biobank",
+      "url": "https://www.ukbiobank.ac.uk/",
+      "category": "深海蓝海",
+      "score": 82,
+      "description": "50万英国参与者，含基因组+影像+生活方式+生化指标，前瞻性队列",
+      "why": "您有多组学生信基础和GBD宏观视角，UKB微观个体数据可做因果推断(MR)和风险预测模型",
+      "if_range": "Lancet (IF 98.4) → BMJ (IF 105.7) → Nature Communications (IF 16.6)",
+      "tier": "Deep Blue",
+      "desc": "50万英国参与者，含基因组+影像+生活方式+生化指标，前瞻性队列"
+    },
+    {
+      "name": "CHARLS",
+      "full_name": "China Health and Retirement Longitudinal Study",
+      "url": "https://charls.charlsdata.com/",
+      "category": "浅海蓝海",
+      "score": 72,
+      "description": "中国健康与养老追踪调查，45+岁中老年人群，覆盖健康、经济、社会多维度",
+      "why": "中国本土数据+老龄化主题与您MSK疾病负担和老年骨科研究方向高度契合",
+      "if_range": "Lancet Public Health (IF 50.0) → Age and Ageing (IF 12.1)",
+      "tier": "Shallow Blue",
+      "desc": "中国健康与养老追踪调查，45+岁中老年人群，覆盖健康、经济、社会多维度"
+    },
+    {
+      "name": "MIMIC-IV",
+      "full_name": "Medical Information Mart for Intensive Care",
+      "url": "https://physionet.org/content/mimiciv/",
+      "category": "近岸蓝海",
+      "score": 65,
+      "description": "麻省理工ICU重症监护数据库，含床旁监护波形+实验室+用药+病程记录",
+      "why": "与您的脓毒症纳米金研究、以及TB重症监护需求可形成临床转化链条",
+      "if_range": "Critical Care (IF 15.1) → Intensive Care Medicine (IF 38.9)",
+      "tier": "Nearshore Blue",
+      "desc": "麻省理工ICU重症监护数据库，含床旁监护波形+实验室+用药+病程记录"
+    },
+    {
+      "name": "SEER",
+      "full_name": "Surveillance, Epidemiology, and End Results Program",
+      "url": "https://seer.cancer.gov/",
+      "category": "近岸蓝海",
+      "score": 62,
+      "description": "美国癌症登记数据库，覆盖48%美国人口，含发病率+生存+治疗数据",
+      "why": "您有乳腺癌GBD经验 + 肾癌多组学研究 + 肾移植后恶性肿瘤文献计量基础",
+      "if_range": "JCO (IF 45.3) → Cancer (IF 6.9)",
+      "tier": "Nearshore Blue",
+      "desc": "美国癌症登记数据库，覆盖48%美国人口，含发病率+生存+治疗数据"
+    },
+    {
+      "name": "TCGA",
+      "full_name": "The Cancer Genome Atlas",
+      "url": "https://www.cancer.gov/tcga",
+      "category": "红海",
+      "score": 48,
+      "description": "33种癌症类型多组学数据（基因组+转录组+表观组+蛋白组）",
+      "why": "您已有肾癌多组学经验，但TCGA发文量极大且增速快，需找准细分切口",
+      "if_range": "Nature (IF 50.5) → Cancer Research (IF 11.2)",
+      "tier": "Red Sea",
+      "desc": "33种癌症类型多组学数据（基因组+转录组+表观组+蛋白组）"
+    },
+    {
+      "name": "GEO",
+      "full_name": "Gene Expression Omnibus",
+      "url": "https://www.ncbi.nlm.nih.gov/geo/",
+      "category": "红海",
+      "score": 45,
+      "description": "全球最大公共基因表达数据库，含微阵列+RNA-seq+ChIP-seq等",
+      "why": "您有TB诊断基因表达分析经验，GEO可作为训练集但需外部验证队列",
+      "if_range": "Briefings in Bioinformatics (IF 9.5) → BMC Genomics (IF 4.4)",
+      "tier": "Red Sea",
+      "desc": "全球最大公共基因表达数据库，含微阵列+RNA-seq+ChIP-seq等"
+    },
+    {
+      "name": "FinnGen",
+      "full_name": "FinnGen Research Project",
+      "url": "https://www.finngen.fi/",
+      "category": "深海蓝海",
+      "score": 76,
+      "description": "50万芬兰人群基因型+健康登记数据，专注基因-疾病关联研究",
+      "why": "结合您的疫苗设计经验可做药物靶点MR分析；芬兰人群遗传背景独特，竞争者少",
+      "if_range": "Nature Genetics (IF 30.8) → European Journal of Epidemiology (IF 13.6)",
+      "tier": "Deep Blue",
+      "desc": "50万芬兰人群基因型+健康登记数据，专注基因-疾病关联研究"
+    },
+    {
+      "name": "CPRD",
+      "full_name": "Clinical Practice Research Datalink",
+      "url": "https://cprd.com/",
+      "category": "浅海蓝海",
+      "score": 70,
+      "description": "英国基层医疗电子健康记录，含6000万患者，覆盖处方+诊断+检验",
+      "why": "消化系统疾病GBD经验可对接真实世界药物疗效与安全性研究",
+      "if_range": "BMJ (IF 105.7) → Gut (IF 24.5)",
+      "tier": "Shallow Blue",
+      "desc": "英国基层医疗电子健康记录，含6000万患者，覆盖处方+诊断+检验"
+    }
+  ]
+}

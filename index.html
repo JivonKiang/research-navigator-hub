@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jivon Research Navigator</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+  <header class="hero">
+    <div>
+      <p class="eyebrow">Research Navigator</p>
+      <h1>ORCID × 疾病方向 × 科研套路</h1>
+      <p class="subtitle">用交互网络图展示课题可行性，每个 idea 都绑定可手动核实的 PubMed/DOI 参考文献。</p>
+    </div>
+    <div class="hero-card">
+      <div class="metric"><span id="metric-ideas">--</span><small>Idea</small></div>
+      <div class="metric"><span id="metric-refs">--</span><small>参考文献</small></div>
+      <div class="metric"><span id="metric-verified">--</span><small>已核实</small></div>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="panel network-panel">
+      <div class="panel-head">
+        <div>
+          <h2>交互分析网络图</h2>
+          <p>圆点代表领域或方法；连线代表一个可执行 idea；颜色越绿表示可行性越高。</p>
+        </div>
+        <div class="filters">
+          <button class="chip active" data-filter="all">全部</button>
+          <button class="chip" data-filter="tb">结核相关</button>
+          <button class="chip" data-filter="high">高可行性</button>
+          <button class="chip" data-filter="unverified">未核实</button>
+        </div>
+      </div>
+      <div id="network"></div>
+    </section>
+
+    <aside class="panel detail-panel">
+      <h2>Idea 证据面板</h2>
+      <div id="idea-detail" class="empty">点击网络中的连线或下方卡片，查看研究问题、可行性和参考文献核实入口。</div>
+    </aside>
+  </main>
+
+  <section class="panel idea-section">
+    <div class="panel-head">
+      <div>
+        <h2>可推进 Idea</h2>
+        <p>每条 idea 都带参考文献。默认 `?` 为未核实，点开 PubMed/DOI 后可手动切换为 `✓` 或 `×`。</p>
+      </div>
+      <input id="search" type="search" placeholder="搜索 TB、MR、GBD、ORCID...">
+    </div>
+    <div id="idea-list" class="idea-grid"></div>
+  </section>
+
+  <section class="panel">
+    <h2>参考文献总库</h2>
+    <div id="reference-list" class="reference-list"></div>
+  </section>
+
+  <footer>
+    <span>迁移自旧综合仓：JivonKiang.github.io</span>
+    <span>·</span>
+    <a href="https://github.com/JivonKiang/research-navigator-hub" target="_blank" rel="noopener">GitHub 仓库</a>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
